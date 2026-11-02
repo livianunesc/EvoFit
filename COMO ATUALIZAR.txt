@@ -1,0 +1,15 @@
+ATUALIZAR O EVOFIT SEM PERDER SEUS DADOS (WINDOWS)
+
+1. Na janela do terminal onde o EvoFit esta rodando, pressione Ctrl+C.
+2. Guarde uma copia da pasta antiga inteira como backup.
+3. Extraia o novo ZIP. Abra a pasta que contem server.py.
+4. Copie os arquivos e as pastas da nova versao para a pasta ANTIGA
+   (onde voce ja usava o EvoFit). Aceite substituir os arquivos do codigo.
+5. NAO apague o arquivo evofit.sqlite3: ele guarda seus alunos e registros.
+   O novo ZIP nao inclui banco, portanto nao substitui seus dados.
+6. Abra Iniciar EvoFit.bat na pasta antiga e mantenha a janela aberta.
+7. No navegador, pressione Ctrl+F5 para carregar a nova interface.
+
+Os logins continuam os mesmos. A atualizacao do banco e automatica.
+Exercicios concluidos ficam salvos mesmo se voce fechar a pagina.
+O personal cria/edita os cards na area Treinos, por aluno.
