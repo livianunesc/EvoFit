@@ -1,0 +1,276 @@
+Crie do zero o EvoFit, uma plataforma de acompanhamento fitness funcional e interativa, com acesso separado para personal trainer e aluno. Quero uma aplicação utilizável, com navegação, formulários, dados persistentes e ações funcionando.
+
+Página inicial: entrar ou cadastrar
+
+A primeira página deve ser a tela de autenticação, com:
+- E-mail e senha.
+- Seleção do perfil: personal trainer ou aluno.
+- Opção de criar conta.
+- Validação dos campos e mensagens claras de erro.
+- Redirecionamento para o painel correspondente após o login.
+- Opção de sair da conta.
+Disponibilize duas contas de demonstração, com dados fictícios preenchidos, e informe as credenciais na tela e no README:
+- Personal: personal@evofit.demo
+- Aluno: aluno@evofit.demo
+- Senha de demonstração: EvoFit123!
+Área do personal trainer
+
+O personal deve conseguir:
+- Visualizar um painel com seus alunos, treinos e evolução recente.
+- Adicionar alunos e consultar seus perfis.
+- Criar, editar e atribuir treinos a cada aluno.
+- Organizar treinos por dia ou divisão muscular.
+- Cadastrar exercícios com séries, repetições, carga, descanso e observações.
+- Criar, editar e atribuir planos alimentares, organizados por refeições, alimentos, quantidades e horários.
+- Acompanhar individualmente o progresso dos alunos: treinos concluídos, frequência, evolução de cargas, peso e medidas.
+- Consultar gráficos e histórico de cada aluno.
+Área do aluno
+
+O aluno deve conseguir:
+- Acessar seu painel com o treino do dia, resumo da dieta e progresso.
+- Consultar a tabela completa de treinos.
+- Visualizar as instruções de cada exercício.
+- Marcar exercícios e treinos como concluídos.
+- Registrar a carga utilizada e observações sobre o treino.
+- Consultar o plano alimentar organizado por refeições.
+- Registrar peso e medidas e acompanhar a evolução em gráficos.
+- Consultar seu histórico de treinos e editar informações básicas do perfil.
+Funcionamento e integração
+
+As duas áreas devem compartilhar os mesmos dados: um treino ou plano alimentar atribuído pelo personal deve aparecer para o aluno correto, e os registros do aluno devem atualizar o painel do personal.
+
+Implemente autenticação, permissões por perfil e persistência em banco de dados. O personal deve acessar apenas seus alunos, e cada aluno deve acessar apenas seus próprios dados. As contas de demonstração devem estar vinculadas entre si e conter informações suficientes para testar todos os fluxos.
+
+Todos os botões e formulários devem funcionar. Inclua estados de carregamento, confirmação das operações, mensagens de erro e telas vazias úteis. Não entregue apenas telas estáticas ou gráficos desconectados dos registros.
+
+Interface
+
+Use uma identidade visual moderna e consistente com o nome EvoFit. A plataforma deve ser responsiva, confortável de usar no celular e no computador, com menus claros, tabelas legíveis e gráficos fáceis de entender. Use português do Brasil em toda a interface.
+
+Validação e entrega
+
+Teste o fluxo completo: entrar como personal, cadastrar um aluno, atribuir treino e dieta, entrar como aluno, consultar os planos, registrar um treino e verificar a atualização do progresso no painel do personal.
+
+Execute a aplicação na porta 4173 e disponibilize uma prévia navegável, se a plataforma permitir. Caso não permita, gere um ZIP com o projeto completo, incluindo código, configuração de exemplo sem segredos e README com os comandos para instalar, preparar o banco e executar.
+
+Informe as credenciais de demonstração, o que foi validado e eventuais limitações. Faça escolhas técnicas razoáveis e entregue a aplicação funcionando.Crie do zero o EvoFit, uma plataforma de acompanhamento fitness funcional e interativa, com acesso separado para personal trainer e aluno. Quero uma aplicação utilizável, com navegação, formulários, dados persistentes e ações funcionando.
+
+Página inicial: entrar ou cadastrar
+
+A primeira página deve ser a tela de autenticação, com:
+- E-mail e senha.
+- Seleção do perfil: personal trainer ou aluno.
+- Opção de criar conta.
+- Validação dos campos e mensagens claras de erro.
+- Redirecionamento para o painel correspondente após o login.
+- Opção de sair da conta.
+Disponibilize duas contas de demonstração, com dados fictícios preenchidos, e informe as credenciais na tela e no README:
+- Personal: personal@evofit.demo
+- Aluno: aluno@evofit.demo
+- Senha de demonstração: EvoFit123!
+Área do personal trainer
+
+O personal deve conseguir:
+- Visualizar um painel com seus alunos, treinos e evolução recente.
+- Adicionar alunos e consultar seus perfis.
+- Criar, editar e atribuir treinos a cada aluno.
+- Organizar treinos por dia ou divisão muscular.
+- Cadastrar exercícios com séries, repetições, carga, descanso e observações.
+- Criar, editar e atribuir planos alimentares, organizados por refeições, alimentos, quantidades e horários.
+- Acompanhar individualmente o progresso dos alunos: treinos concluídos, frequência, evolução de cargas, peso e medidas.
+- Consultar gráficos e histórico de cada aluno.
+Área do aluno
+
+O aluno deve conseguir:
+- Acessar seu painel com o treino do dia, resumo da dieta e progresso.
+- Consultar a tabela completa de treinos.
+- Visualizar as instruções de cada exercício.
+- Marcar exercícios e treinos como concluídos.
+- Registrar a carga utilizada e observações sobre o treino.
+- Consultar o plano alimentar organizado por refeições.
+- Registrar peso e medidas e acompanhar a evolução em gráficos.
+- Consultar seu histórico de treinos e editar informações básicas do perfil.
+Funcionamento e integração
+
+As duas áreas devem compartilhar os mesmos dados: um treino ou plano alimentar atribuído pelo personal deve aparecer para o aluno correto, e os registros do aluno devem atualizar o painel do personal.
+
+Implemente autenticação, permissões por perfil e persistência em banco de dados. O personal deve acessar apenas seus alunos, e cada aluno deve acessar apenas seus próprios dados. As contas de demonstração devem estar vinculadas entre si e conter informações suficientes para testar todos os fluxos.
+
+Todos os botões e formulários devem funcionar. Inclua estados de carregamento, confirmação das operações, mensagens de erro e telas vazias úteis. Não entregue apenas telas estáticas ou gráficos desconectados dos registros.
+
+Interface
+
+Use uma identidade visual moderna e consistente com o nome EvoFit. A plataforma deve ser responsiva, confortável de usar no celular e no computador, com menus claros, tabelas legíveis e gráficos fáceis de entender. Use português do Brasil em toda a interface.
+
+Validação e entrega
+
+Teste o fluxo completo: entrar como personal, cadastrar um aluno, atribuir treino e dieta, entrar como aluno, consultar os planos, registrar um treino e verificar a atualização do progresso no painel do personal.
+
+Execute a aplicação na porta 4173 e disponibilize uma prévia navegável, se a plataforma permitir. Caso não permita, gere um ZIP com o projeto completo, incluindo código, configuração de exemplo sem segredos e README com os comandos para instalar, preparar o banco e executar.
+
+Informe as credenciais de demonstração, o que foi validado e eventuais limitações. Faça escolhas técnicas razoáveis e entregue a aplicação funcionando.Crie do zero o EvoFit, uma plataforma de acompanhamento fitness funcional e interativa, com acesso separado para personal trainer e aluno. Quero uma aplicação utilizável, com navegação, formulários, dados persistentes e ações funcionando.
+
+Página inicial: entrar ou cadastrar
+
+A primeira página deve ser a tela de autenticação, com:
+- E-mail e senha.
+- Seleção do perfil: personal trainer ou aluno.
+- Opção de criar conta.
+- Validação dos campos e mensagens claras de erro.
+- Redirecionamento para o painel correspondente após o login.
+- Opção de sair da conta.
+Disponibilize duas contas de demonstração, com dados fictícios preenchidos, e informe as credenciais na tela e no README:
+- Personal: personal@evofit.demo
+- Aluno: aluno@evofit.demo
+- Senha de demonstração: EvoFit123!
+Área do personal trainer
+
+O personal deve conseguir:
+- Visualizar um painel com seus alunos, treinos e evolução recente.
+- Adicionar alunos e consultar seus perfis.
+- Criar, editar e atribuir treinos a cada aluno.
+- Organizar treinos por dia ou divisão muscular.
+- Cadastrar exercícios com séries, repetições, carga, descanso e observações.
+- Criar, editar e atribuir planos alimentares, organizados por refeições, alimentos, quantidades e horários.
+- Acompanhar individualmente o progresso dos alunos: treinos concluídos, frequência, evolução de cargas, peso e medidas.
+- Consultar gráficos e histórico de cada aluno.
+Área do aluno
+
+O aluno deve conseguir:
+- Acessar seu painel com o treino do dia, resumo da dieta e progresso.
+- Consultar a tabela completa de treinos.
+- Visualizar as instruções de cada exercício.
+- Marcar exercícios e treinos como concluídos.
+- Registrar a carga utilizada e observações sobre o treino.
+- Consultar o plano alimentar organizado por refeições.
+- Registrar peso e medidas e acompanhar a evolução em gráficos.
+- Consultar seu histórico de treinos e editar informações básicas do perfil.
+Funcionamento e integração
+
+As duas áreas devem compartilhar os mesmos dados: um treino ou plano alimentar atribuído pelo personal deve aparecer para o aluno correto, e os registros do aluno devem atualizar o painel do personal.
+
+Implemente autenticação, permissões por perfil e persistência em banco de dados. O personal deve acessar apenas seus alunos, e cada aluno deve acessar apenas seus próprios dados. As contas de demonstração devem estar vinculadas entre si e conter informações suficientes para testar todos os fluxos.
+
+Todos os botões e formulários devem funcionar. Inclua estados de carregamento, confirmação das operações, mensagens de erro e telas vazias úteis. Não entregue apenas telas estáticas ou gráficos desconectados dos registros.
+
+Interface
+
+Use uma identidade visual moderna e consistente com o nome EvoFit. A plataforma deve ser responsiva, confortável de usar no celular e no computador, com menus claros, tabelas legíveis e gráficos fáceis de entender. Use português do Brasil em toda a interface.
+
+Validação e entrega
+
+Teste o fluxo completo: entrar como personal, cadastrar um aluno, atribuir treino e dieta, entrar como aluno, consultar os planos, registrar um treino e verificar a atualização do progresso no painel do personal.
+
+Execute a aplicação na porta 4173 e disponibilize uma prévia navegável, se a plataforma permitir. Caso não permita, gere um ZIP com o projeto completo, incluindo código, configuração de exemplo sem segredos e README com os comandos para instalar, preparar o banco e executar.
+
+Informe as credenciais de demonstração, o que foi validado e eventuais limitações. Faça escolhas técnicas razoáveis e entregue a aplicação funcionando.Crie do zero o EvoFit, uma plataforma de acompanhamento fitness funcional e interativa, com acesso separado para personal trainer e aluno. Quero uma aplicação utilizável, com navegação, formulários, dados persistentes e ações funcionando.
+
+Página inicial: entrar ou cadastrar
+
+A primeira página deve ser a tela de autenticação, com:
+- E-mail e senha.
+- Seleção do perfil: personal trainer ou aluno.
+- Opção de criar conta.
+- Validação dos campos e mensagens claras de erro.
+- Redirecionamento para o painel correspondente após o login.
+- Opção de sair da conta.
+Disponibilize duas contas de demonstração, com dados fictícios preenchidos, e informe as credenciais na tela e no README:
+- Personal: personal@evofit.demo
+- Aluno: aluno@evofit.demo
+- Senha de demonstração: EvoFit123!
+Área do personal trainer
+
+O personal deve conseguir:
+- Visualizar um painel com seus alunos, treinos e evolução recente.
+- Adicionar alunos e consultar seus perfis.
+- Criar, editar e atribuir treinos a cada aluno.
+- Organizar treinos por dia ou divisão muscular.
+- Cadastrar exercícios com séries, repetições, carga, descanso e observações.
+- Criar, editar e atribuir planos alimentares, organizados por refeições, alimentos, quantidades e horários.
+- Acompanhar individualmente o progresso dos alunos: treinos concluídos, frequência, evolução de cargas, peso e medidas.
+- Consultar gráficos e histórico de cada aluno.
+Área do aluno
+
+O aluno deve conseguir:
+- Acessar seu painel com o treino do dia, resumo da dieta e progresso.
+- Consultar a tabela completa de treinos.
+- Visualizar as instruções de cada exercício.
+- Marcar exercícios e treinos como concluídos.
+- Registrar a carga utilizada e observações sobre o treino.
+- Consultar o plano alimentar organizado por refeições.
+- Registrar peso e medidas e acompanhar a evolução em gráficos.
+- Consultar seu histórico de treinos e editar informações básicas do perfil.
+Funcionamento e integração
+
+As duas áreas devem compartilhar os mesmos dados: um treino ou plano alimentar atribuído pelo personal deve aparecer para o aluno correto, e os registros do aluno devem atualizar o painel do personal.
+
+Implemente autenticação, permissões por perfil e persistência em banco de dados. O personal deve acessar apenas seus alunos, e cada aluno deve acessar apenas seus próprios dados. As contas de demonstração devem estar vinculadas entre si e conter informações suficientes para testar todos os fluxos.
+
+Todos os botões e formulários devem funcionar. Inclua estados de carregamento, confirmação das operações, mensagens de erro e telas vazias úteis. Não entregue apenas telas estáticas ou gráficos desconectados dos registros.
+
+Interface
+
+Use uma identidade visual moderna e consistente com o nome EvoFit. A plataforma deve ser responsiva, confortável de usar no celular e no computador, com menus claros, tabelas legíveis e gráficos fáceis de entender. Use português do Brasil em toda a interface.
+
+Validação e entrega
+
+Teste o fluxo completo: entrar como personal, cadastrar um aluno, atribuir treino e dieta, entrar como aluno, consultar os planos, registrar um treino e verificar a atualização do progresso no painel do personal.
+
+Execute a aplicação na porta 4173 e disponibilize uma prévia navegável, se a plataforma permitir. Caso não permita, gere um ZIP com o projeto completo, incluindo código, configuração de exemplo sem segredos e README com os comandos para instalar, preparar o banco e executar.
+
+Informe as credenciais de demonstração, o que foi validado e eventuais limitações. Faça escolhas técnicas razoáveis e entregue a aplicação funcionando.Crie do zero o EvoFit, uma plataforma de acompanhamento fitness funcional e interativa, com acesso separado para personal trainer e aluno. Quero uma aplicação utilizável, com navegação, formulários, dados persistentes e ações funcionando.
+
+Página inicial: entrar ou cadastrar
+
+A primeira página deve ser a tela de autenticação, com:
+- E-mail e senha.
+- Seleção do perfil: personal trainer ou aluno.
+- Opção de criar conta.
+- Validação dos campos e mensagens claras de erro.
+- Redirecionamento para o painel correspondente após o login.
+- Opção de sair da conta.
+Disponibilize duas contas de demonstração, com dados fictícios preenchidos, e informe as credenciais na tela e no README:
+- Personal: personal@evofit.demo
+- Aluno: aluno@evofit.demo
+- Senha de demonstração: EvoFit123!
+Área do personal trainer
+
+O personal deve conseguir:
+- Visualizar um painel com seus alunos, treinos e evolução recente.
+- Adicionar alunos e consultar seus perfis.
+- Criar, editar e atribuir treinos a cada aluno.
+- Organizar treinos por dia ou divisão muscular.
+- Cadastrar exercícios com séries, repetições, carga, descanso e observações.
+- Criar, editar e atribuir planos alimentares, organizados por refeições, alimentos, quantidades e horários.
+- Acompanhar individualmente o progresso dos alunos: treinos concluídos, frequência, evolução de cargas, peso e medidas.
+- Consultar gráficos e histórico de cada aluno.
+Área do aluno
+
+O aluno deve conseguir:
+- Acessar seu painel com o treino do dia, resumo da dieta e progresso.
+- Consultar a tabela completa de treinos.
+- Visualizar as instruções de cada exercício.
+- Marcar exercícios e treinos como concluídos.
+- Registrar a carga utilizada e observações sobre o treino.
+- Consultar o plano alimentar organizado por refeições.
+- Registrar peso e medidas e acompanhar a evolução em gráficos.
+- Consultar seu histórico de treinos e editar informações básicas do perfil.
+Funcionamento e integração
+
+As duas áreas devem compartilhar os mesmos dados: um treino ou plano alimentar atribuído pelo personal deve aparecer para o aluno correto, e os registros do aluno devem atualizar o painel do personal.
+
+Implemente autenticação, permissões por perfil e persistência em banco de dados. O personal deve acessar apenas seus alunos, e cada aluno deve acessar apenas seus próprios dados. As contas de demonstração devem estar vinculadas entre si e conter informações suficientes para testar todos os fluxos.
+
+Todos os botões e formulários devem funcionar. Inclua estados de carregamento, confirmação das operações, mensagens de erro e telas vazias úteis. Não entregue apenas telas estáticas ou gráficos desconectados dos registros.
+
+Interface
+
+Use uma identidade visual moderna e consistente com o nome EvoFit. A plataforma deve ser responsiva, confortável de usar no celular e no computador, com menus claros, tabelas legíveis e gráficos fáceis de entender. Use português do Brasil em toda a interface.
+
+Validação e entrega
+
+Teste o fluxo completo: entrar como personal, cadastrar um aluno, atribuir treino e dieta, entrar como aluno, consultar os planos, registrar um treino e verificar a atualização do progresso no painel do personal.
+
+Execute a aplicação na porta 4173 e disponibilize uma prévia navegável, se a plataforma permitir. Caso não permita, gere um ZIP com o projeto completo, incluindo código, configuração de exemplo sem segredos e README com os comandos para instalar, preparar o banco e executar.
+
+Informe as credenciais de demonstração, o que foi validado e eventuais limitações. Faça escolhas técnicas razoáveis e entregue a aplicação funcionando.
