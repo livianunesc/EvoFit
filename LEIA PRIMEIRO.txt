@@ -1,0 +1,35 @@
+EVOFIT - VERSAO PHP + MYSQL, COM HTML, CSS, JAVASCRIPT E PYTHON
+
+NO COMPUTADOR WINDOWS:
+
+1. Instale XAMPP com PHP 8.2 ou superior e Python 3.10 ou superior.
+2. Abra o painel do XAMPP e clique em Start ao lado de MySQL.
+3. Abra a pasta do projeto que contem server.py.
+4. Na primeira vez, abra Preparar EvoFit.bat e espere terminar.
+5. Abra Iniciar EvoFit.bat. O navegador abrira o EvoFit na porta 4173.
+6. Mantenha a janela preta e o MySQL abertos enquanto usa o sistema.
+
+Se seu MySQL usa senha/porta diferente, copie .env.example para .env
+(e preserve um .env que ja exista). Abra .env e ajuste os campos DB_.
+As configuracoes de exemplo sao os padroes locais do XAMPP,
+nao credenciais de uma hospedagem.
+
+SE VOCE JA USAVA A VERSAO ANTIGA:
+
+Pare o EvoFit antigo com Ctrl+C e guarde uma copia da pasta inteira.
+Copie o codigo novo sobre a pasta antiga sem excluir evofit.sqlite3.
+Preparar EvoFit.bat detecta o SQLite, faz backup e importa no MySQL.
+O banco MySQL deve estar vazio para receber a migracao.
+A migracao nao substitui um banco MySQL que ja tenha usuarios/planos.
+Se ja migrou, use apenas Iniciar EvoFit.bat nas proximas vezes.
+Se o MySQL nao estiver vazio, mantenha ambos os bancos e configure
+um DB_NAME novo no .env antes de migrar. Nao apague seus registros.
+
+DEMONSTRACAO (banco novo):
+Personal: personal@evofit.demo
+Aluno: aluno@evofit.demo
+Senha: EvoFit123!
+
+As contas migradas continuam com seus e-mails e senhas anteriores.
+A pasta e os dados no seu computador nao se atualizam sozinhos pelo GitHub.
+Veja README.md para detalhes, comandos e hospedagem.

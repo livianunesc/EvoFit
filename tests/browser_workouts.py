@@ -2,7 +2,7 @@
 import tempfile, threading, sys, json, os, shutil
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-import server
+from legacy import server_sqlite as server
 from playwright.sync_api import sync_playwright, expect
 
 def run():
@@ -49,7 +49,7 @@ def run():
                 page.evaluate('''() => {
                   const originalFetch=window.fetch;
                   window.holdExercise=true;
-                  window.fetch=(url,options) => String(url).endsWith('/api/exercise') && window.holdExercise
+                  window.fetch=(url,options) => (String(url).endsWith('/api/exercise') || String(url).includes('api.php?route=exercise')) && window.holdExercise
                     ? new Promise(resolve => {window.releaseExercise=()=>{window.holdExercise=false;resolve(originalFetch(url,options));};})
                     : originalFetch(url,options);
                 }''')

@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: evofit
+      MYSQL_USER: evofit
+      MYSQL_PASSWORD: ${DOCKER_DB_PASSWORD:?Defina DOCKER_DB_PASSWORD no arquivo .env}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_PASSWORD\" mysql -u\"$$MYSQL_USER\" -e 'SELECT 1' \"$$MYSQL_DATABASE\" >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    image: evofit-php:dev
+    build: .
+    ports:
+      - "127.0.0.1:4173:4173"
+    environment:
+      DB_HOST: db
+      DB_NAME: evofit
+      DB_USER: evofit
+      DB_PASSWORD: ${DOCKER_DB_PASSWORD:?Defina DOCKER_DB_PASSWORD no arquivo .env}
+      PYTHON_BIN: /usr/bin/python3
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  mysql_data:

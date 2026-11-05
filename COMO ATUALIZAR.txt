@@ -1,15 +1,19 @@
-ATUALIZAR O EVOFIT SEM PERDER SEUS DADOS (WINDOWS)
+ATUALIZACAO PARA PHP + MYSQL
 
-1. Na janela do terminal onde o EvoFit esta rodando, pressione Ctrl+C.
-2. Guarde uma copia da pasta antiga inteira como backup.
-3. Extraia o novo ZIP. Abra a pasta que contem server.py.
-4. Copie os arquivos e as pastas da nova versao para a pasta ANTIGA
-   (onde voce ja usava o EvoFit). Aceite substituir os arquivos do codigo.
-5. NAO apague o arquivo evofit.sqlite3: ele guarda seus alunos e registros.
-   O novo ZIP nao inclui banco, portanto nao substitui seus dados.
-6. Abra Iniciar EvoFit.bat na pasta antiga e mantenha a janela aberta.
-7. No navegador, pressione Ctrl+F5 para carregar a nova interface.
+Leia LEIA PRIMEIRO.txt. Esta versao precisa de PHP e MySQL ligados.
+HTML, CSS e JavaScript continuam sendo a interface.
+Python inicia o PHP e migra o banco antigo com backup.
 
-Os logins continuam os mesmos. A atualizacao do banco e automatica.
-Exercicios concluidos ficam salvos mesmo se voce fechar a pagina.
-O personal cria/edita os cards na area Treinos, por aluno.
+1. Pare a versao antiga usando Ctrl+C no terminal.
+2. Guarde uma copia da pasta antiga inteira.
+3. Extraia o ZIP novo e copie o codigo para a pasta antiga.
+4. Preserve evofit.sqlite3 e um .env ja configurado.
+5. Inicie MySQL no XAMPP.
+6. Execute Preparar EvoFit.bat uma vez para migrar o SQLite.
+7. Apos a preparacao, execute Iniciar EvoFit.bat.
+8. No navegador, pressione Ctrl+F5 para carregar os arquivos novos.
+
+O MySQL precisa estar vazio antes da migracao. Se ja migrou,
+nao repita a migracao: apenas inicie o aplicativo.
+O SQLite original permanece e backups sao guardados em backups/.
+Nao compartilhe bancos, backups ou .env contendo senhas.

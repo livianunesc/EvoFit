@@ -1,6 +1,6 @@
 import unittest, tempfile, os, sys, threading, urllib.request, urllib.error, http.cookiejar, json, sqlite3
 sys.path.insert(0,os.path.dirname(os.path.dirname(__file__)))
-import server
+from legacy import server_sqlite as server
 
 class Flow(unittest.TestCase):
     @classmethod

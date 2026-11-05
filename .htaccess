@@ -1,0 +1,7 @@
+Options -Indexes
+<FilesMatch "^(\.|.*\.(sqlite3|sqlite3-shm|sqlite3-wal|env|sql|py|json|bat|ya?ml|md|txt)$)">
+    Require all denied
+</FilesMatch>
+RewriteEngine On
+RewriteRule (^|/)\. - [F,L]
+RewriteRule ^(?:php|tools|legacy|database|backups|tests|docs)(?:/|$) - [F,L]

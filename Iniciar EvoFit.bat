@@ -14,6 +14,7 @@ if not errorlevel 1 (
     )
     set "EVOFIT_PY=python"
 )
+echo Ligue o MySQL no painel do XAMPP antes de iniciar.
 echo Iniciando o EvoFit. Mantenha esta janela aberta enquanto usa o aplicativo.
 echo No navegador, abra: http://localhost:4173
 start "" /b powershell -NoProfile -Command "Start-Sleep -Seconds 2; Start-Process 'http://localhost:4173'"
@@ -21,5 +22,6 @@ start "" /b powershell -NoProfile -Command "Start-Sleep -Seconds 2; Start-Proces
 if errorlevel 1 (
     echo.
     echo O EvoFit nao iniciou. Confira a mensagem acima.
+    echo Ligue o MySQL no XAMPP e prepare o banco usando Preparar EvoFit.bat.
 )
 pause
