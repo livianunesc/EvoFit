@@ -21,3 +21,15 @@ O teste de migração usa origem SQLite temporária, destino MySQL vazio e dados
 Também foi migrado o banco SQLite já existente nesta instância: 2 usuários, 3 planos e 4 registros de histórico. A comparação conferiu os dados antes do primeiro login; ambos os logins funcionaram e atualizaram seus hashes. Uma segunda importação foi recusada sem alterar o destino ou o SQLite.
 
 A aplicação final foi iniciada na porta 4173 usando Compose. A publicação de um ambiente e a execução em nova máquina são etapas separadas. Os arquivos `.bat` foram revisados; não houve execução em Windows nem no aplicativo XAMPP gráfico. MariaDB foi validado em container Linux. Não foi feita implantação pública de produção.
+
+## Interface Focus e ranking — 6 de novembro de 2026
+
+A nova interface é focada em treino e foi verificada com PHP/MySQL reais em banco exclusivo de testes. Os 8 testes existentes de API continuaram passando. Foram acrescentadas 6 verificações de ranking: isolamento entre equipes, privacidade dos campos, empates, treino parcial sem pontuação, finalização idempotente, mês/geral, vínculos independentes, limites mensais UTC/fuso, datas antigas sem horário e horário de verão.
+
+O teste Chromium foi atualizado para a navegação Painel/Treinos/Ranking/Histórico e gestão de atletas pelo personal. Usa contas fictícias criadas pela API, com quatro divisões de treino e registros reais de conclusão: os gráficos e os números são comparados com esses registros. Verificou carrossel, setas, indicadores, teclado, exercícios, imagens, carga, retomada, finalização, histórico, ranking, filtros e edição. Dieta e perfil não aparecem na navegação.
+
+A versão móvel de 375 px foi conferida sem overflow horizontal, com botão de treino totalmente dentro do hero e preferência de movimento reduzido respeitada. Fontes e fotografia carregam localmente. A revisão também protegeu a interface contra respostas antigas de requisições após logout ou troca de conta. A migração e os dados antigos não sofreram alteração destrutiva.
+
+O teste opcional de navegador da versão SQLite preservada também foi adaptado e passou com banco temporário. O ranking principal pertence à versão PHP/MySQL. Os scripts Windows continuam sem execução nativa nesta máquina Linux.
+
+As 6 verificações do ranking também passaram no MariaDB 10.4.34, sem skips. As regressões de autenticação foram executadas no Chromium: uma resposta real atrasada após logout não reabre o painel; após entrar em outra conta, a resposta antiga não substitui o nome, a equipe ou os dados atuais. O tratamento de datas sem horário foi conferido com UTC e conversão para São Paulo.

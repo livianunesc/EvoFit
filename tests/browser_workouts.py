@@ -1,5 +1,6 @@
 """Functional UI test. Requires Playwright and a Chromium browser (not runtime dependencies)."""
-import tempfile, threading, sys, json, os, shutil
+import tempfile, threading, sys, json, os, shutil, re
+from urllib.parse import urlsplit, parse_qs
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from legacy import server_sqlite as server
@@ -22,20 +23,31 @@ def run():
                 page=browser.new_page(viewport=dict(width=1440,height=1000))
                 errors=[];bad_responses=[]
                 page.on('pageerror',lambda error:errors.append(str(error)))
-                page.on('response',lambda response:bad_responses.append((response.status,response.url)) if response.status>=400 and not response.url.endswith('/api/state') else None)
+                def record_response(response):
+                    parsed=urlsplit(response.url)
+                    initial_state=parsed.path=='/api/state' or (parsed.path=='/api.php' and parse_qs(parsed.query).get('route')==['state'])
+                    if response.status>=400 and not (response.status==401 and initial_state):
+                        bad_responses.append((response.status,response.url))
+                page.on('response',record_response)
                 base='http://127.0.0.1:'+str(http.server_port)
                 def login(email,role):
                     page.goto(base)
                     page.get_by_label('E-mail',exact=True).fill(email)
                     page.get_by_label('Senha',exact=True).fill('EvoFit123!')
-                    page.get_by_label('Seu perfil').select_option(role)
-                    page.get_by_role('button',name='Entrar na minha conta').click()
+                    page.get_by_label('Tipo de acesso').select_option(role)
+                    page.get_by_role('button',name='Entrar no EvoFit').click()
                     page.locator('nav').wait_for()
-                def nav(tab):page.locator('nav').get_by_role('button',name=tab).click()
+                def nav(tab):page.locator('nav').get_by_role('button',name=tab,exact=True).click()
+                def select_workout(target,title):
+                    target.locator('.workout-dots').get_by_role('button',name=re.compile(r'^Selecionar treino \d+: '+re.escape(title)+r'$')).click()
+                    expect(target.locator('.workout-active h2')).to_have_text(title)
+                def open_workout(target,title):
+                    select_workout(target,title)
+                    target.locator('.workout-active [data-open-workout]').click()
                 login('aluno@evofit.demo','aluno');nav('Treinos')
-                expect(page.locator('.workout-card')).to_have_count(3)
+                expect(page.locator('.workout-dot')).to_have_count(3)
                 page.screenshot(path=str(artifacts/'EvoFit-treinos-cards.png'),full_page=True)
-                page.get_by_role('button',name='Iniciar treino: Quadríceps',exact=True).click()
+                open_workout(page,'Quadríceps')
                 expect(page.get_by_role('button',name='Concluir treino',exact=False)).to_be_disabled()
                 details=page.locator('details').filter(has=page.locator('summary strong',has_text='Cadeira extensora'))
                 details.locator('summary').click()
@@ -61,7 +73,9 @@ def run():
                 assert page.evaluate('document.activeElement.tagName')=='SUMMARY','Focus lost after saving'
                 # Refresh and login sessions must not lose per-exercise completion or load.
                 page.reload();page.locator('nav').wait_for();nav('Treinos')
-                page.get_by_role('button',name='Retomar treino: Quadríceps',exact=True).click()
+                select_workout(page,'Quadríceps')
+                expect(page.locator('.workout-active [data-open-workout]')).to_contain_text('RETOMAR TREINO')
+                page.locator('.workout-active [data-open-workout]').click()
                 details=page.locator('details').first;details.locator('summary').click()
                 expect(details.get_by_role('spinbutton')).to_have_value('25')
                 expect(details.get_by_role('button',name='Exercício concluído',exact=False)).to_be_disabled()
@@ -72,8 +86,8 @@ def run():
                 expect(page.locator('.workout-progress strong')).to_contain_text('1')
                 # Personal can see saved progress, without student-only controls.
                 ctx=browser.new_context();trainer=ctx.new_page();trainer.goto(base)
-                trainer.get_by_label('E-mail',exact=True).fill('personal@evofit.demo');trainer.get_by_label('Senha',exact=True).fill('EvoFit123!');trainer.get_by_label('Seu perfil').select_option('personal');trainer.get_by_role('button',name='Entrar na minha conta').click();trainer.locator('nav').wait_for()
-                trainer.locator('nav').get_by_role('button',name='Treinos').click();trainer.get_by_role('button',name='Ver treino: Quadríceps',exact=True).click()
+                trainer.get_by_label('E-mail',exact=True).fill('personal@evofit.demo');trainer.get_by_label('Senha',exact=True).fill('EvoFit123!');trainer.get_by_label('Tipo de acesso').select_option('personal');trainer.get_by_role('button',name='Entrar no EvoFit').click();trainer.locator('nav').wait_for()
+                trainer.locator('nav').get_by_role('button',name='Treinos',exact=True).click();open_workout(trainer,'Quadríceps')
                 expect(trainer.locator('.workout-progress strong')).to_contain_text('1')
                 expect(trainer.locator('[data-complete-exercise]')).to_have_count(0)
                 # Finish second exercise, then entire workout: one real history record.
@@ -81,17 +95,17 @@ def run():
                 expect(page.get_by_role('button',name='Concluir treino',exact=False)).to_be_enabled()
                 page.get_by_label('Observações do treino',exact=True).fill('Treino completo no navegador')
                 page.get_by_role('button',name='Concluir treino',exact=False).click()
-                expect(page.get_by_role('heading',name='Treinos registrados')).to_be_visible()
-                expect(page.locator('#content')).to_contain_text('Cadeira extensora · 27.5 kg')
+                expect(page.locator('.history-entry')).to_have_count(2)
+                expect(page.locator('.history-entry').first.locator('.history-body > div').filter(has_text='Cadeira extensora')).to_contain_text('27.5')
                 expect(page.locator('#content')).to_contain_text('Treino completo no navegador')
-                trainer.reload();trainer.locator('nav').wait_for();trainer.locator('nav').get_by_role('button',name='Histórico').click();expect(trainer.locator('#content')).to_contain_text('Cadeira extensora · 27.5 kg')
+                trainer.reload();trainer.locator('nav').wait_for();trainer.locator('nav').get_by_role('button',name='Histórico',exact=True).click();expect(trainer.locator('.history-entry').first.locator('.history-body > div').filter(has_text='Cadeira extensora')).to_contain_text('27.5')
                 # Personal edit UI persists the illustration choice; saves remain compatible.
-                trainer.locator('nav').get_by_role('button',name='Treinos').click();trainer.locator('.workout-tile').filter(has_text='Quadríceps').get_by_role('button',name='Editar treino').click()
+                trainer.locator('nav').get_by_role('button',name='Treinos',exact=True).click();select_workout(trainer,'Quadríceps');trainer.locator('.workout-active').get_by_role('button',name='Editar treino',exact=True).click()
                 trainer.locator('.editor').first.get_by_label('Imagem do exercício').select_option('extension')
-                trainer.get_by_role('button',name='Salvar e atribuir').click();expect(trainer.locator('.workout-grid')).to_be_visible()
+                trainer.get_by_role('button',name='Salvar e atribuir').click();expect(trainer.locator('.workout-selector')).to_be_visible()
                 nav('Treinos');page.set_viewport_size(dict(width=390,height=844))
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Mobile cards overflow'
-                page.get_by_role('button',name='Iniciar treino: Quadríceps',exact=True).click();page.locator('details').first.locator('summary').click()
+                open_workout(page,'Quadríceps');page.locator('details').first.locator('summary').click()
                 page.evaluate("document.querySelector('#toast').style.display='none'")
                 page.screenshot(path=str(artifacts/'EvoFit-exercicio-celular.png'),full_page=True)
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Mobile exercise overflow'
@@ -99,7 +113,7 @@ def run():
                 page.locator('details').first.locator('summary').focus();page.keyboard.press('Enter');assert not page.locator('details').first.evaluate('(el)=>el.open')
                 assert not errors,errors
                 assert not bad_responses,bad_responses
-                print('PASS: cards, accordion, images, load controls, exercise completion, reload/resume, edit load, whole-workout history, personal synchronization, illustration editing, mobile layout, keyboard and no JS errors.')
+                print('PASS: training carousel/cards, accordion, images, load controls, exercise completion, reload/resume, edit load, whole-workout history, personal synchronization, illustration editing, mobile layout, keyboard and no JS errors.')
                 ctx.close();browser.close()
         finally:http.shutdown();http.server_close()
 if __name__=='__main__':run()

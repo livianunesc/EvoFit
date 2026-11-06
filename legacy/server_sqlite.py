@@ -63,10 +63,10 @@ class Handler(BaseHTTPRequestHandler):
         request_path=unquote(urlsplit(self.path).path)
         static=(ROOT/'static').resolve()
         path=(static/('index.html' if request_path=='/' else request_path.lstrip('/'))).resolve()
-        regular=path in [static/x for x in ['index.html','app.js','workouts.js','style.css']]
-        image=path.parent==(static/'images').resolve() and path.suffix=='.svg' and path.is_relative_to(static)
+        regular=path in [static/x for x in ['index.html','app.js','workouts.js','style.css','workouts.css']]
+        image=path.parent in [(static/'images').resolve(),(static/'fonts').resolve()] and path.suffix in ['.svg','.png','.ttf'] and path.is_relative_to(static)
         if not (regular or image) or not path.is_file():self.send_error(404);return
-        self.send_response(200);self.send_header('Content-Type',{'html':'text/html; charset=utf-8','js':'text/javascript; charset=utf-8','css':'text/css','svg':'image/svg+xml'}[path.suffix[1:]]);self.end_headers();self.wfile.write(path.read_bytes())
+        self.send_response(200);self.send_header('Content-Type',{'html':'text/html; charset=utf-8','js':'text/javascript; charset=utf-8','css':'text/css','svg':'image/svg+xml','png':'image/png','ttf':'font/ttf'}[path.suffix[1:]]);self.end_headers();self.wfile.write(path.read_bytes())
     def do_POST(self): self.api()
     def api(self):
         try:

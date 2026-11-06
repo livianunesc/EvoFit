@@ -1,6 +1,6 @@
 # EvoFit
 
-Plataforma fitness em português com personal e aluno, planos de treino e alimentação, cards interativos, cargas, medidas e histórico compartilhado. Autoria Git: **Livia Nunes Coelho**.
+Plataforma fitness em português, agora focada em treinos: personal e atleta, seleção interativa de divisões, cargas, progresso, histórico e ranking da equipe. Autoria Git: **Livia Nunes Coelho**.
 
 Esta versão usa **HTML, CSS, JavaScript, PHP, MySQL e Python**, com responsabilidades definidas:
 
@@ -75,13 +75,25 @@ As contas estão vinculadas e incluem treinos, refeições, medidas e histórico
 
 ## Treinos e acompanhamento
 
-O personal cadastra alunos, cria/edita divisões e atribui treinos e dietas ao aluno selecionado. Cada divisão aparece em um card. Ao abrir o card e expandir um exercício, o aluno vê ilustração, instruções, séries, repetições, descanso e controle de carga. **Concluir exercício** salva o progresso individual; recarregar a página permite retomar. **Ajustar carga** reabre o registro antes da finalização.
+O personal cadastra atletas e cria/edita as divisões de treino para a pessoa selecionada. Cada divisão aparece em um carrossel de cards: escolha pelas setas, indicadores, teclado ou gesto de arrastar; o treino ativo fica em destaque. Ao abrir o card e expandir um exercício, o aluno vê ilustração, instruções, séries, repetições, descanso e controle de carga. **Concluir exercício** salva o progresso individual; recarregar a página permite retomar. **Ajustar carga** reabre o registro antes da finalização.
 
 Quando todos os exercícios estiverem concluídos, **Concluir treino** registra o histórico e atualiza o painel do personal. Repetições da mesma finalização não duplicam o histórico. Alterações na prescrição invalidam somente o progresso ainda aberto; renomeações e imagens preservam as conclusões. O histórico completo permanece.
 
-O aluno também consulta alimentação, registra medidas, acompanha gráficos e edita perfil. Atualize a página para ver alterações feitas em outra sessão. O cadastro livre de aluno cria uma conta independente; para acompanhamento, o personal cadastra o aluno com e-mail ainda não utilizado.
+A navegação contém somente Painel, Treinos, Ranking e Histórico; o personal também tem Atletas. Dieta, perfil e medidas foram retirados da interface. Os dados antigos continuam preservados no banco e na migração, sem exclusões. O painel usa apenas registros reais de treino, com filtros de 7/30 dias, frequência, exercícios concluídos, maior carga e calendário. Atualize a página para ver alterações feitas em outra sessão. O cadastro livre de aluno cria uma conta independente; para acompanhamento, o personal cadastra o atleta com e-mail ainda não utilizado.
 
 As imagens são diagramas SVG originais e funcionam sem internet. O personal escolhe uma ilustração no editor; exercícios sem referência específica usam a imagem genérica.
+
+## Ranking TEAM [NOME DO PERSONAL] FOCUS
+
+O ranking mostra exclusivamente os atletas vinculados ao mesmo personal da conta autenticada. Personal vê sua equipe; aluno vê somente a equipe do próprio personal. Os demais atletas são apresentados apenas com nome, total e posição, sem e-mail, histórico ou medidas. Contas independentes não participam de outra equipe.
+
+A contagem considera treinos inteiros finalizados, nunca exercícios parciais. O treino só pode ser finalizado depois de concluir todos os exercícios; repetir a mesma finalização não duplica a pontuação. O filtro **Este mês** usa o calendário de São Paulo; **Geral** conta todo o histórico. Empates têm a mesma posição e a ordem visual é estável. Dados antigos de treinos concluídos também contam. O ranking é atualizado ao finalizar um treino e recarregar o estado da aplicação.
+
+## Nova identidade visual
+
+Paleta de branco, preto, verde-lima e verde claro, tipografia local Barlow Condensed/Manrope, fotografia esportiva original e seleção de treinos com card central em destaque. A interface inclui transições, indicadores de progresso e uma celebração breve ao finalizar, respeitando `prefers-reduced-motion`. Fontes e imagens são locais; nenhum CDN é necessário. Veja [docs/DESIGN.md](docs/DESIGN.md) e [docs/ASSETS.md](docs/ASSETS.md) para decisões visuais e licenças.
+
+Para atualizar uma instalação PHP/MySQL existente, preserve `.env`, banco e backups, substitua somente o código, reinicie o servidor e recarregue o navegador com Ctrl+F5. Não repita a migração de SQLite nem apague volumes.
 
 ## Hospedagem e Apache
 
@@ -133,4 +145,4 @@ Os testes PHP criam contas e registros exclusivos de teste e não apagam o banco
 
 ## Limitações
 
-A entrega prepara desenvolvimento e demonstração. Antes de exposição pública, configure HTTPS, limitação de tentativas de login, recuperação/verificação de e-mail, política de dados e backups. Não há envio de e-mails nem atualização automática entre sessões. Planos alimentares devem ser orientados por profissional habilitado. A autoria Git não equivale a assinatura criptográfica do commit.
+A entrega prepara desenvolvimento e demonstração. Antes de exposição pública, configure HTTPS, limitação de tentativas de login, recuperação/verificação de e-mail, política de dados e backups. Não há envio de e-mails nem atualização automática entre sessões. A autoria Git não equivale a assinatura criptográfica do commit.

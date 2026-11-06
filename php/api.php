@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__.'/bootstrap.php';
+require_once __DIR__.'/ranking.php';
 function evo_cookie(string $token,int $expires): void {
     $script=str_replace('\\','/',$_SERVER['SCRIPT_NAME']??'/api.php');
     // Match the frontend directory when installed under /EvoFit/static on XAMPP.
@@ -39,6 +40,7 @@ function evo_route(PDO $db,string $route,string $method,array $b): array {
     if ($route==='logout') {
         evo_query($db,'DELETE FROM sessions WHERE token=?',[hash('sha256',$token)]); evo_cookie('',time()-3600); return ['ok'=>true];
     }
+    if ($route==='ranking') return evo_team_ranking($db,$user,$_GET['period']??'month');
     if ($route==='state') {
         $students=$user['role']==='personal' ? evo_query($db,'SELECT id,name,email,goal FROM users WHERE trainer=? ORDER BY id',[$user['id']])->fetchAll() : [['id'=>$user['id'],'name'=>$user['name'],'email'=>$user['email'],'goal'=>$user['goal']]];
         $plans=[];$logs=[];$progress=[];
@@ -52,7 +54,7 @@ function evo_route(PDO $db,string $route,string $method,array $b): array {
             foreach (evo_query($db,'SELECT * FROM logs WHERE student=? ORDER BY date,id',[$student['id']])->fetchAll() as $log) { $log['id']=(int)$log['id'];$log['student']=(int)$log['student'];$log['data']=evo_decode($log['data']);$logs[]=$log; }
             foreach (evo_query($db,"SELECT * FROM workout_runs WHERE student=? AND status='active' ORDER BY updated",[$student['id']])->fetchAll() as $run) $progress[]=evo_progress($run);
         }
-        return ['user'=>evo_user_public($user),'students'=>$students,'plans'=>$plans,'logs'=>$logs,'workoutProgress'=>$progress];
+        return ['user'=>evo_user_public($user),'students'=>$students,'plans'=>$plans,'logs'=>$logs,'workoutProgress'=>$progress,'teamRanking'=>evo_team_ranking($db,$user,$_GET['period']??'month')];
     }
     if ($route==='exercise' || $route==='workout/complete') return evo_workout($db,$user,$route,$b);
     if ($route==='student') {
@@ -164,9 +166,10 @@ function evo_handle(): void {
         if (!is_string($_GET['route']??'')) throw new ApiError('Página não encontrada.',404);
         $route=trim($_GET['route']??'','/');
         if (!preg_match('~^[a-z]+(?:/[a-z]+)*$~D',$route)) throw new ApiError('Página não encontrada.',404);
-        $routes=['login','register','logout','state','student','profile','plan','log','exercise','workout/complete'];
+        $routes=['login','register','logout','state','student','profile','plan','log','exercise','workout/complete','ranking'];
         if (!in_array($route,$routes,true)) throw new ApiError('Página não encontrada.',404);
-        if ($method!==($route==='state'?'GET':'POST')) throw new ApiError($route==='state'?'Use GET para consultar.':'Use POST para alterar registros.',405);
+        $readOnly=in_array($route,['state','ranking'],true);
+        if ($method!==($readOnly?'GET':'POST')) throw new ApiError($readOnly?'Use GET para consultar.':'Use POST para alterar registros.',405);
         $b=[];
         if ($method==='POST') {
             if (($_SERVER['HTTP_SEC_FETCH_SITE']??'')==='cross-site') throw new ApiError('Origem não autorizada.',403);
