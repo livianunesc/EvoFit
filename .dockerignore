@@ -7,3 +7,8 @@
 backups
 __pycache__
 **/__pycache__
+!.env.academico.example
+.local
+.venv
+.pytest_cache
+entregas

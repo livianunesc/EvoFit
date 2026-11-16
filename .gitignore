@@ -6,3 +6,9 @@ __pycache__/
 .env.*
 !.env.example
 backups/
+# Estado local da sessão acadêmica; nunca versionar chaves nem ambientes virtuais.
+.local/
+.venv/
+.pytest_cache/
+entregas/
+!.env.academico.example

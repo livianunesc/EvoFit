@@ -1,148 +1,145 @@
-# EvoFit
+# EvoFit — projeto integrado DWS + POO + Banco de Dados
 
-Plataforma fitness em português, agora focada em treinos: personal e atleta, seleção interativa de divisões, cargas, progresso, histórico e ranking da equipe. Autoria Git: **Livia Nunes Coelho**.
+**Autora:** Livia Nunes Coelho
 
-Esta versão usa **HTML, CSS, JavaScript, PHP, MySQL e Python**, com responsabilidades definidas:
+**Disciplinas:** Desenvolvimento de Websites, Programação Orientada a Objetos e Banco de Dados
 
-| Tecnologia | Uso |
+**Repositório:** [livianunesc/EvoFit](https://github.com/livianunesc/EvoFit)
+
+Sistema fitness em português para personal cadastrar alunos, organizar exercícios e prescrever treinos. O aluno consulta sua ficha, informa as cargas, conclui o treino e acompanha histórico e ranking da própria equipe.
+
+O projeto implementa a integração definida em **COMECE AQUI! (PROJETO)**: back-end **Python orientado a objetos com Flask e DAOs**, banco **MySQL** e front-end **HTML, CSS e JavaScript**, que consome as rotas Flask por **Fetch**. O módulo **PHP/PDO** gera um relatório complementar da equipe e compartilha a mesma base de dados.
+
+O [relatório do projeto](docs/RELATORIO_PROJETO.md) apresenta o problema, os objetivos, a solução e os resultados. A [matriz de requisitos](docs/REQUISITOS_AVALIACAO.md) relaciona as etapas de entrega e a rubrica de Banco de Dados aos arquivos e às evidências do sistema.
+
+## Iniciar com Docker (recomendado)
+
+Requisitos: Python 3.10+ e Docker com Compose 2.24.4+ em execução. Não precisa instalar PHP ou MySQL no computador.
+
+```sh
+python tools/docker_academico.py iniciar
+```
+
+A preparação cria `.env.academico` com uma senha aleatória local, constrói a imagem quando necessário, inicia MySQL, cria as tabelas/dados fictícios somente em banco vazio e verifica conexão e HTML. O arquivo local e os volumes preservam a configuração e os dados entre reinicializações.
+
+No computador local, abra a porta **4173** no navegador. O sistema precisa do servidor: não abra o `index.html` por `file://` e não use somente Live Server.
+
+- Principal: `/`.
+- Versão curta para apresentação: `/apresentacao/`.
+- Relatório PHP: `/relatorio-php`, após entrar como personal.
+
+Contas fictícias do banco novo:
+
+| Perfil | E-mail | Senha de demonstração |
+| --- | --- | --- |
+| Personal | personal@evofit.demo | EvoFit123! |
+| Aluno | aluno@evofit.demo | EvoFit123! |
+
+Para parar sem apagar dados:
+
+```sh
+python tools/docker_academico.py parar
+```
+
+Use `iniciar --rebuild` após mudar dependências ou o Dockerfile. O código é montado no container; após alterações em Python, reinicie o serviço app, pois o modo debug está desativado. HTML/CSS/JS atualizam ao recarregar.
+
+## Rodar com Python e MySQL local (XAMPP ou Linux)
+
+Requisitos: Python 3.10+, MySQL 8.0.16+ ou MariaDB 10.4+. Para o relatório, PHP 8.2+ com PDO MySQL. As validações desta entrega foram feitas com MySQL 8.4 em Linux; os scripts Windows não foram executados nativamente.
+
+No Windows, inicie MySQL no XAMPP e use `Preparar EvoFit.bat`, depois `Iniciar EvoFit.bat`. Se o MySQL usa senha/porta diferente, configure `.env.academico` antes de repetir a preparação.
+
+Por terminal:
+
+```sh
+python -m venv .venv
+# Linux/macOS:
+. .venv/bin/activate
+# Windows PowerShell, em vez do comando anterior:
+# .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python tools/preparar_academico.py --local
+# Confira DB_* no .env.academico, sem publicar credenciais.
+python app.py init-db --create-database
+python server.py
+```
+
+A criação do banco requer permissão MySQL. Se ele já foi criado, use `python app.py init-db` sem `--create-database`. O schema não altera tabelas antigas nem apaga registros; não é um mecanismo de migração estrutural. As contas demo só são inseridas em banco sem usuários. Configure `PHP_BIN` quando PHP não estiver no PATH (ex.: `C:\xampp\php\php.exe`).
+
+## Organização do projeto
+
+| Arquivo/pasta | Responsabilidade |
 | --- | --- |
-| HTML | Tela de login e estrutura da interface |
-| CSS | Layout responsivo, cards e estilos |
-| JavaScript | Navegação, formulários, gráficos e interação dos exercícios |
-| PHP 8.2+ | API, autenticação, permissões e gravação dos dados |
-| MySQL 8+ (ou MariaDB 10.4+) | Banco principal com transações e relacionamentos |
-| Python 3.10+ | Inicialização, backup, migração do SQLite e validação inicial das senhas migradas |
+| `index.html`, `pages/` | HTML semântico, formulários, navegação e tabelas |
+| `css/estilo.css` | Layout, identidade visual e media queries |
+| `js/api.js`, `js/app.js` | DOM, eventos, validação e Fetch GET/POST/PUT/DELETE |
+| `models.py` | Entidades; encapsulamento, herança, abstração, polimorfismo e composição |
+| `dao.py` | Conexão, DAOs, SQL parametrizado e transações |
+| `app.py`, `server.py` | Rotas Flask, autenticação, JSON e entrada do servidor |
+| `banco/schema.sql` | Modelo físico normalizado, PK, FK, UNIQUE e CHECK |
+| `banco/dados_teste.sql` | Casos complementares, inclusive dados sem correspondência |
+| `banco/consultas_avaliacao.sql` | 14 consultas comentadas: JOIN, subqueries e paginação |
+| `php_academico/relatorio.php` | Relatório PDO real, executado por CLI após autenticação Flask |
+| `apresentacao/` | Interface reduzida, mesma API e banco real |
+| `docs/REQUISITOS_AVALIACAO.md` | Requisitos funcionais/não funcionais, casos de uso e rastreabilidade da avaliação |
+| `docs/MODELAGEM.md` | UML, ER, sequência, dicionário de dados e normalização |
+| `docs/RELATORIO_PROJETO.md` | Relatório técnico do projeto integrado |
+| `docs/ROTEIRO_APRESENTACAO.md` | Passo a passo e perguntas para a sabatina |
 
-O código Python/SQLite anterior está preservado em `legacy/server_sqlite.py`. O `server.py` da raiz agora inicia a versão **PHP/MySQL**.
+O fluxo de uma operação é **HTML → evento JavaScript → Fetch → rota Flask → objeto → DAO → MySQL → JSON → DOM**. Os comentários no código registram as responsabilidades de cada camada e as regras do domínio.
 
-## Abrir no Windows com XAMPP
+## Funcionalidades e regras
 
-1. Instale **XAMPP com PHP 8.2+** e **Python 3.10+**.
-2. No painel do XAMPP, inicie **MySQL**. Para o servidor da porta 4173, Apache não é necessário.
-3. Abra a pasta que contém `server.py` e execute **Preparar EvoFit.bat** na primeira vez.
-4. Quando a preparação terminar, execute **Iniciar EvoFit.bat**.
-5. O navegador abre o sistema na porta **4173**. Mantenha o terminal e o MySQL ligados.
+- Personal: CRUD de alunos, catálogo de exercícios e prescrição de treinos; histórico/ranking da própria equipe; relatório PHP.
+- Aluno: seus treinos, preenchimento de cargas, conclusão, histórico e ranking da própria equipe. Contas independentes não veem outras equipes.
+- A prescrição usa uma tabela associativa: treino N:N exercício. Séries, repetições, carga e descanso pertencem à associação.
+- A interface exige marcar todos os exercícios antes de concluir; a API exige uma carga válida por exercício. Não há sensor para comprovar atividade física.
+- Uma versão da prescrição detecta ficha desatualizada: se o personal alterar exercícios/cargas, a API exige recarregar antes de concluir.
+- A chave única de conclusão impede duplicação por reenvio da mesma tentativa. Uma nova sessão/ação de treino recebe nova chave e pode gerar outro registro.
+- O histórico guarda a data UTC e a soma das cargas informadas, em kg. Essa soma **não é volume de treino** e não substitui acompanhamento profissional.
+- Não se exclui aluno com treinos, exercício em uso ou treino com histórico. O dono de treino com histórico não pode mudar. A API devolve conflito, preservando os vínculos.
+- O catálogo é compartilhado entre os personais. Dados pessoais, treinos e históricos têm escopo por equipe.
 
-Leia também **LEIA PRIMEIRO.txt**. Os scripts Windows foram revisados, mas a execução automatizada é validada em Linux; o passo a passo Windows depende da instalação local de XAMPP/Python.
+A edição acadêmica concentra o fluxo de treino. O histórico guarda título pelo vínculo ao treino e soma de cargas, sem snapshot por exercício nem retomada parcial persistida; alterações do título são refletidas em consultas posteriores. A edição anterior, mais extensa, permanece preservada para referência.
 
-O padrão local do XAMPP é `DB_HOST=127.0.0.1`, `DB_PORT=3306`, usuário `root` e senha vazia. Se sua instalação usa outros valores, copie `.env.example` para `.env` e ajuste. Preserve um `.env` já existente. Não use esses padrões de desenvolvimento em hospedagem pública.
+## Banco e consultas da avaliação
 
-## Instalação por terminal
-
-Requisitos: PHP 8.2+ com PDO MySQL, MySQL 8+ e Python 3.10+. Não há Composer, npm ou pacotes Python obrigatórios. O PHP pode ser selecionado com `EVOFIT_PHP_BIN` ou com `--php CAMINHO` antes do subcomando de `tools/manage.py`; no Windows, `C:\xampp\php\php.exe` também é reconhecido.
-
-Com o MySQL ligado e `.env` configurado:
-
-```sh
-# Apenas para um banco NOVO, sem dados a migrar:
-python tools/manage.py init --create-database
-python server.py
-```
-
-`--create-database` cria somente o nome configurado em `DB_NAME` e requer permissão do usuário MySQL. Sem essa opção, crie/selecione o banco previamente e execute `python tools/manage.py init`. O esquema é idempotente e as contas demo só são inseridas em banco vazio. Verificação: `python tools/manage.py check`.
-
-Também é possível usar PHP diretamente:
-
-```sh
-php php/setup.php --create-database
-php -S 127.0.0.1:4173 -t static router.php
-```
-
-`database/schema.sql` contém o esquema completo para importar no phpMyAdmin dentro do banco selecionado. Depois, `php php/setup.php` cria os dados de demonstração se o banco estiver vazio.
-
-## Preservar os dados da versão antiga
-
-Pare o servidor antigo, faça uma cópia de toda a pasta e preserve `evofit.sqlite3`. Configure **um MySQL vazio**, ainda sem executar o seed/demo:
+Depois do `init-db`, importe `banco/dados_teste.sql` e execute `banco/consultas_avaliacao.sql` no banco **evofit_academico** pelo MySQL Workbench/phpMyAdmin. No terminal Docker, sem imprimir credenciais:
 
 ```sh
-python tools/manage.py migrate-sqlite evofit.sqlite3 --create-database
-python server.py
+docker compose --env-file .env.academico -p evofit-academico -f compose.academico.yaml exec -T db sh -c 'MYSQL_PWD="$MYSQL_PASSWORD" mysql -u"$MYSQL_USER" "$MYSQL_DATABASE"' < banco/dados_teste.sql
+docker compose --env-file .env.academico -p evofit-academico -f compose.academico.yaml exec -T db sh -c 'MYSQL_PWD="$MYSQL_PASSWORD" mysql -u"$MYSQL_USER" "$MYSQL_DATABASE"' < banco/consultas_avaliacao.sql
 ```
 
-A migração lê o SQLite sem alterar o original, cria backup consistente em `backups/` e importa usuários, vínculos, planos, registros e sessões de treino. Ela recusa um destino MySQL que já contenha dados. A importação é transacional; falhas mantêm os dados anteriores. Sessões de autenticação antigas não são transferidas: entre novamente. As senhas continuam válidas; no primeiro login, PHP chama o verificador Python por stdin e substitui o hash antigo por um hash nativo do PHP. As contas já convertidas não precisam desse verificador.
+Os comandos acima usam redirecionamento de Bash/CMD. Em outros terminais, use o cliente gráfico para importar os arquivos. As variáveis de sessão nas consultas SQL são para estudo; a API usa IDs da sessão autenticada e parâmetros do DAO.
 
-Não apague o SQLite ou seus backups depois de migrar. Eles não são incluídos no Git nem no ZIP. Os dados do MySQL ficam no serviço MySQL e exigem seus próprios backups. Parar a aplicação não apaga o banco.
-
-## Demonstração
-
-Em um banco inicializado do zero:
-
-- **Personal:** `personal@evofit.demo`
-- **Aluno:** `aluno@evofit.demo`
-- **Senha de ambas:** `EvoFit123!`
-
-As contas estão vinculadas e incluem treinos, refeições, medidas e histórico fictícios. Na migração, as contas existentes são mantidas, sem substituição por dados demo.
-
-## Treinos e acompanhamento
-
-O personal cadastra atletas e cria/edita as divisões de treino para a pessoa selecionada. Cada divisão aparece em um carrossel de cards: escolha pelas setas, indicadores, teclado ou gesto de arrastar; o treino ativo fica em destaque. Ao abrir o card e expandir um exercício, o aluno vê ilustração, instruções, séries, repetições, descanso e controle de carga. **Concluir exercício** salva o progresso individual; recarregar a página permite retomar. **Ajustar carga** reabre o registro antes da finalização.
-
-Quando todos os exercícios estiverem concluídos, **Concluir treino** registra o histórico e atualiza o painel do personal. Repetições da mesma finalização não duplicam o histórico. Alterações na prescrição invalidam somente o progresso ainda aberto; renomeações e imagens preservam as conclusões. O histórico completo permanece.
-
-A navegação contém somente Painel, Treinos, Ranking e Histórico; o personal também tem Atletas. Dieta, perfil e medidas foram retirados da interface. Os dados antigos continuam preservados no banco e na migração, sem exclusões. O painel usa apenas registros reais de treino, com filtros de 7/30 dias, frequência, exercícios concluídos, maior carga e calendário. Atualize a página para ver alterações feitas em outra sessão. O cadastro livre de aluno cria uma conta independente; para acompanhamento, o personal cadastra o atleta com e-mail ainda não utilizado.
-
-As imagens são diagramas SVG originais e funcionam sem internet. O personal escolhe uma ilustração no editor; exercícios sem referência específica usam a imagem genérica.
-
-## Ranking TEAM [NOME DO PERSONAL] FOCUS
-
-O ranking mostra exclusivamente os atletas vinculados ao mesmo personal da conta autenticada. Personal vê sua equipe; aluno vê somente a equipe do próprio personal. Os demais atletas são apresentados apenas com nome, total e posição, sem e-mail, histórico ou medidas. Contas independentes não participam de outra equipe.
-
-A contagem considera treinos inteiros finalizados, nunca exercícios parciais. O treino só pode ser finalizado depois de concluir todos os exercícios; repetir a mesma finalização não duplica a pontuação. O filtro **Este mês** usa o calendário de São Paulo; **Geral** conta todo o histórico. Empates têm a mesma posição e a ordem visual é estável. Dados antigos de treinos concluídos também contam. O ranking é atualizado ao finalizar um treino e recarregar o estado da aplicação.
-
-## Nova identidade visual
-
-Paleta de branco, preto, verde-lima e verde claro, tipografia local Barlow Condensed/Manrope, fotografia esportiva original e seleção de treinos com card central em destaque. A interface inclui transições, indicadores de progresso e uma celebração breve ao finalizar, respeitando `prefers-reduced-motion`. Fontes e imagens são locais; nenhum CDN é necessário. Veja [docs/DESIGN.md](docs/DESIGN.md) e [docs/ASSETS.md](docs/ASSETS.md) para decisões visuais e licenças.
-
-Para atualizar uma instalação PHP/MySQL existente, preserve `.env`, banco e backups, substitua somente o código, reinicie o servidor e recarregue o navegador com Ctrl+F5. Não repita a migração de SQLite nem apague volumes.
-
-## Hospedagem e Apache
-
-Configure o document root para **`static/`**, mantendo `php/`, `tools/`, `.env`, backups e SQL fora da área pública. A API está em `static/api.php`; o frontend usa caminhos relativos e funciona em subpastas. Em XAMPP/Apache, abrir `/EvoFit/static/` também funciona, mas evite expor os demais diretórios: configure um VirtualHost apontando para `static/` ou mantenha-os fora de `htdocs`. O arquivo `.htaccess` do projeto bloqueia o acesso direto ao código privado quando esse arranjo for usado.
-
-Configure HTTPS, `SECURE_COOKIE=1` e um usuário MySQL restrito ao banco do aplicativo em produção. Servidores compartilhados podem desabilitar Python/proc_open; isso impede o primeiro login de uma conta migrada. Contas novas usam PHP diretamente. Não coloque credenciais reais no repositório.
-
-## Docker opcional
-
-Copie `.env.example` para `.env` e defina uma senha forte em `DOCKER_DB_PASSWORD`. MySQL usa volume persistente e não expõe sua porta externamente.
+## Testar sem tocar no banco de demonstração
 
 ```sh
-docker compose build
-docker compose up -d db
-# Banco novo:
-docker compose run --rm app php php/setup.php
-# Depois:
-docker compose up -d app
+python tools/docker_academico.py iniciar --testes
+python tools/docker_academico.py validar --testes
 ```
 
-Para migrar, faça a migração **antes de inicializar o demo**. Com o SQLite preservado na raiz, execute `docker compose run --rm -v "$PWD/evofit.sqlite3:/app/evofit.sqlite3:ro" -v "$PWD/backups:/app/backups" app python3 tools/manage.py migrate-sqlite /app/evofit.sqlite3`. O volume de backups deve ser gravável. Não use `docker compose down -v` se quiser preservar os dados.
+Esse ambiente usa banco/volumes separados e a porta **4185**. Os testes criam dados fictícios próprios. Não aponte a variável de testes ao banco de uso real. As verificações e seus limites estão em [docs/VALIDACAO_ACADEMICA.md](docs/VALIDACAO_ACADEMICA.md).
 
-## Validação
+## Edição anterior e dados existentes
 
-```sh
-# Ferramentas Python (não requerem MySQL):
-python -m unittest discover -s tests -p 'test_tools.py' -v
-# Regressão da versão antiga, com SQLite temporário:
-python -m unittest discover -s tests -p 'test_flow.py' -v
-# Integração PHP em banco exclusivo de testes, nunca no banco de uso real:
-EVOFIT_TEST_URL=http://127.0.0.1:4183 python tests/test_php_flow.py
-# Interface PHP (requer Playwright e Chromium apenas para este teste):
-EVOFIT_TEST_URL=http://127.0.0.1:4183 python tests/browser_php.py
-```
+A implementação PHP anterior e suas ferramentas permanecem em `static/`, `php/`, `database/` e `legacy/`. O README anterior está em `docs/EDICAO_PHP_ORIGINAL.md`; os `.bat` anteriores em `legacy/windows_php/` são apenas referência histórica (seus caminhos relativos pressupunham a raiz original).
 
-Os resultados executados e os limites da validação estão em [docs/VALIDACAO.md](docs/VALIDACAO.md).
+A nova versão usa o banco separado **evofit_academico**. Ela não converte nem apaga um banco anterior. Para executar a edição PHP original, siga seu documento e use `python server.py --legacy-php` ou seu Compose original em outra porta, sem iniciar dois servidores na mesma porta.
 
-Os testes PHP criam contas e registros exclusivos de teste e não apagam o banco. Configure uma instância/banco separados antes de executá-los. Os exemplos com variáveis antes do comando usam sintaxe Bash; no PowerShell, defina `$env:EVOFIT_TEST_URL` antes de executar Python.
+## Documentação da entrega
 
-## Estrutura
+| Documento | Conteúdo |
+| --- | --- |
+| [Relatório do projeto](docs/RELATORIO_PROJETO.md) | Problema, objetivos, desenvolvimento e resultados |
+| [Requisitos e avaliação](docs/REQUISITOS_AVALIACAO.md) | Etapas e critérios definidos nos materiais das disciplinas |
+| [Modelagem](docs/MODELAGEM.md) | Diagramas UML/ER/sequência, cardinalidades, dicionário e normalização |
+| [Validação](docs/VALIDACAO_ACADEMICA.md) | Ambiente, procedimentos, resultados e limites dos testes |
+| [Apresentação e sabatina](docs/ROTEIRO_APRESENTACAO.md) | Demonstração das funcionalidades e consultas SQL |
 
-- `static/`: HTML, CSS, JavaScript, ilustrações e entrada pública da API PHP.
-- `php/`: configuração privada, API, autenticação, seed e importador.
-- `database/schema.sql`: tabelas, chaves e índices MySQL.
-- `tools/`: inicialização e migração em Python.
-- `legacy/`: servidor Python/SQLite anterior, preservado para recuperação.
-- `tests/`: testes das duas versões e das ferramentas.
-- `.env.example`: configuração de exemplo sem segredos.
+O documento **COMECE AQUI! (PROJETO)** estabelece as etapas de 09/11/2026 (UML e banco), 13/11/2026 (classes, DAOs e Flask) e 17/11/2026 (integração completa). A documentação apresenta as evidências técnicas correspondentes; os prazos não constituem registro de entrega nessas datas.
 
-## Limitações
+O código está disponível no repositório indicado no início deste documento. A orientação de entrega também exige adicionar o professor como colaborador pelo e-mail `leonardo.stephan@eaportal.org`; o estado desse convite deve ser conferido nas configurações do GitHub.
 
-A entrega prepara desenvolvimento e demonstração. Antes de exposição pública, configure HTTPS, limitação de tentativas de login, recuperação/verificação de e-mail, política de dados e backups. Não há envio de e-mails nem atualização automática entre sessões. A autoria Git não equivale a assinatura criptográfica do commit.
+O servidor Flask utilizado é destinado a desenvolvimento e apresentação local.

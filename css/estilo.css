@@ -1,0 +1,768 @@
+/* A folha é compartilhada pelas páginas; as media queries adaptam a mesma estrutura ao celular. */
+
+@font-face {
+  font-family: Manrope;
+  src: url('/static/fonts/manrope-variable.ttf') format('truetype');
+  font-display: swap
+}
+
+@font-face {
+  font-family: Barlow;
+  src: url('/static/fonts/barlow-condensed-extrabold.ttf') format('truetype');
+  font-display: swap
+}
+
+:root {
+  --lima: #d7fd71;
+  --preto: #171a12;
+  --fundo: #f5f6f0;
+  --cinza: #66705b;
+  --borda: #dfe4d5;
+  --branco: #fff;
+  font-family: Manrope,Arial,sans-serif;
+  color: var(--preto);
+  background: var(--fundo);
+  font-synthesis: none
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0
+}
+
+button,input,select,textarea {
+  font: inherit
+}
+
+button,a,input,textarea,select {
+  -webkit-tap-highlight-color: transparent
+}
+
+a {
+  color: inherit
+}
+
+button,a,input,select,textarea {
+  outline-offset: 4px
+}
+
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+  outline: 3px solid #6b8b20
+}
+
+button {
+  cursor: pointer
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: wait
+}
+
+button,.botao {
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 19px;
+  background: var(--preto);
+  color: white;
+  font-weight: 800;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  gap: 7px
+}
+
+button:hover,.botao:hover {
+  filter: brightness(.91)
+}
+
+.lima {
+  background: var(--lima);
+  color: var(--preto)
+}
+
+.secundario {
+  background: #edf1e5;
+  color: var(--preto)
+}
+
+.perigo {
+  background: #fff0ed;
+  color: #9c3424
+}
+
+.pequeno {
+  padding: 8px 12px;
+  font-size: .8rem
+}
+
+.skip {
+  position: absolute;
+  top: -80px;
+  left: 20px;
+  background: var(--lima);
+  padding: 12px;
+  z-index: 100
+}
+
+.skip:focus {
+  top: 10px
+}
+
+/* Cabeçalho e navegação: permanecem acessíveis no topo da página. */
+
+.cabecalho {
+  background: white;
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 10
+}
+
+.barra {
+  max-width: 1240px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 18px 30px
+}
+
+.marca {
+  font: 900 37px/.9 Barlow,Impact,sans-serif;
+  letter-spacing: -1.5px;
+  text-decoration: none;
+  white-space: nowrap
+}
+
+.marca span {
+  color: #6b8b20
+}
+
+.barra nav {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap
+}
+
+.barra nav a {
+  font-size: .82rem;
+  text-decoration: none;
+  padding: 9px 11px;
+  border-radius: 7px;
+  font-weight: 700;
+  color: var(--cinza)
+}
+
+.barra nav a[aria-current=page] {
+  background: var(--lima);
+  color: var(--preto)
+}
+
+.usuario {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .8rem
+}
+
+.usuario span {
+  max-width: 170px;
+  overflow-wrap: anywhere
+}
+
+main {
+  max-width: 1240px;
+  margin: auto;
+  padding: 34px 30px 70px
+}
+
+h1,h2,h3,p {
+  margin-top: 0
+}
+
+h1,h2 {
+  font-family: Barlow,Impact,sans-serif;
+  text-transform: uppercase;
+  line-height: 1
+}
+
+h1 {
+  font-size: clamp(2.3rem,5vw,4rem);
+  letter-spacing: -.8px;
+  margin-bottom: 14px
+}
+
+h2 {
+  font-size: 2rem
+}
+
+h3 {
+  font-size: 1rem
+}
+
+p {
+  line-height: 1.7
+}
+
+/* Conteúdo: cartões, resumo da conta e destaque inicial. */
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin: 12px 0 28px
+}
+
+.intro p {
+  max-width: 660px;
+  color: var(--cinza);
+  margin-bottom: 0
+}
+
+.sobretitulo {
+  font-size: .68rem;
+  letter-spacing: 2px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--cinza);
+  display: block;
+  margin-bottom: 12px
+}
+
+.cartao {
+  min-width: 0;
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 26px;
+  margin-bottom: 24px
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 24px
+}
+
+.grade .cartao {
+  margin: 0
+}
+
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 18px;
+  margin: 24px 0
+}
+
+.metrica {
+  border-radius: 14px;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--borda)
+}
+
+.metrica strong {
+  font: 3rem Barlow,Impact,sans-serif;
+  display: block
+}
+
+.metrica span {
+  font-size: .8rem;
+  color: var(--cinza)
+}
+
+.metrica:first-child {
+  background: var(--lima)
+}
+
+.hero {
+  border-radius: 18px;
+  background: var(--preto);
+  color: white;
+  padding: 46px;
+  position: relative;
+  overflow: hidden;
+  min-height: 310px
+}
+
+.hero h1 {
+  font-size: clamp(3.7rem,8vw,6.5rem);
+  max-width: 680px
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--lima)
+}
+
+.hero p {
+  color: #d3d8ca;
+  max-width: 560px
+}
+
+.hero .sobretitulo {
+  color: var(--lima)
+}
+
+.hero:after {
+  content: 'E';
+  font: 26rem/.8 Barlow;
+  position: absolute;
+  right: -15px;
+  bottom: -40px;
+  color: #d7fd7110;
+  pointer-events: none
+}
+
+.linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap
+}
+
+/* Formulários: rótulos explícitos, foco visível e campos com o mesmo padrão. */
+
+form label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 800;
+  margin: 0 0 7px
+}
+
+input,select,textarea {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #c8d0bc;
+  border-radius: 8px;
+  background: #fcfdf9;
+  color: var(--preto);
+  min-width: 0
+}
+
+input[type=checkbox] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  accent-color: #516b12
+}
+
+textarea {
+  resize: vertical;
+  min-height: 88px
+}
+
+.campo {
+  margin-bottom: 18px
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 16px
+}
+
+.campos .campo {
+  margin-bottom: 0
+}
+
+.campos+.campo,.campos+.acoes {
+  margin-top: 18px
+}
+
+.ajuda,.vazio {
+  color: var(--cinza);
+  font-size: .85rem;
+  line-height: 1.7
+}
+
+.vazio {
+  padding: 18px 0;
+  margin: 0
+}
+
+.status {
+  min-height: 28px;
+  margin: 0 0 18px;
+  font-size: .88rem;
+  line-height: 1.6;
+  padding: 0;
+  border-radius: 8px;
+  overflow-wrap: anywhere
+}
+
+.status:not(:empty) {
+  padding: 12px 16px;
+  background: #eaf2db;
+  border: 1px solid #d1dfbb
+}
+
+.status[data-tipo=erro]:not(:empty) {
+  background: #fff0ed;
+  border-color: #ecc4b9;
+  color: #8b281c
+}
+
+/* Tabelas e treinos: rolagem local preserva o layout em telas estreitas. */
+
+.tabela-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--borda);
+  border-radius: 10px
+}
+
+table {
+  width: 100%;
+  min-width: 540px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: .85rem
+}
+
+th,td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--borda);
+  vertical-align: top
+}
+
+th {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  background: #f3f5ed;
+  color: var(--cinza)
+}
+
+td {
+  overflow-wrap: anywhere
+}
+
+tbody tr:last-child td {
+  border: 0
+}
+
+.lista-treinos {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 24px
+}
+
+.treino {
+  margin: 0;
+  border-top: 5px solid var(--lima)
+}
+
+.exercicio {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--borda)
+}
+
+.exercicio:last-child {
+  border: 0
+}
+
+.exercicio p {
+  font-size: .8rem;
+  color: var(--cinza);
+  margin: 5px 0 12px
+}
+
+.checar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .8rem
+}
+
+.checar label {
+  font-size: .8rem;
+  display: inline;
+  margin: 0
+}
+
+.carga {
+  max-width: 150px;
+  margin: 8px 0
+}
+
+.editor-exercicio {
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 14px;
+  background: #fbfcf7
+}
+
+.editor-exercicio .campos {
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  margin: 12px 0
+}
+
+.editor-exercicio .campos label {
+  font-size: .72rem
+}
+
+.tag {
+  display: inline-block;
+  font-size: .68rem;
+  background: #edf1e4;
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-weight: 800
+}
+
+.rodape {
+  max-width: 1240px;
+  padding: 20px 30px;
+  border-top: 1px solid var(--borda);
+  margin: auto;
+  font-size: .75rem;
+  color: var(--cinza);
+  display: flex;
+  justify-content: space-between;
+  gap: 15px
+}
+
+/* Login: destaque visual e contas fictícias para experimentar o sistema. */
+
+.login-layout {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 30px;
+  align-items: start
+}
+
+.login-layout .hero {
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center
+}
+
+.login-layout .cartao {
+  margin: 0
+}
+
+.demo {
+  background: #f2f5e9;
+  padding: 17px;
+  border-radius: 10px;
+  font-size: .78rem;
+  margin-top: 25px
+}
+
+.demo p {
+  margin-bottom: 8px
+}
+
+.demo code {
+  overflow-wrap: anywhere;
+  font-size: .78rem
+}
+
+.item-ranking {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--borda)
+}
+
+.item-ranking:last-child {
+  border: 0
+}
+
+.posicao {
+  font: 1.7rem Barlow;
+  color: #6b8b20
+}
+
+.item-ranking small {
+  color: var(--cinza)
+}
+
+[hidden] {
+  display: none!important
+}
+
+/* Responsividade: ajusta as colunas e a navegação para tablet e celular. */
+
+@media(max-width:900px) {
+  .barra {
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px
+  }
+
+  .usuario {
+    margin-left: auto
+  }
+
+  .barra nav {
+    order: 3;
+    width: 100%;
+    border-top: 1px solid var(--borda);
+    padding-top: 10px
+  }
+
+  .login-layout {
+    grid-template-columns: 1fr 1fr
+  }
+
+  .login-layout .hero {
+    padding: 30px;
+    min-height: 520px
+  }
+
+  .grade {
+    grid-template-columns: 1fr
+  }
+
+  .lista-treinos {
+    grid-template-columns: 1fr
+  }
+
+}
+
+@media(max-width:600px) {
+  main {
+    padding: 24px 18px 45px
+  }
+
+  .barra {
+    padding: 16px 18px;
+    gap: 12px
+  }
+
+  .marca {
+    font-size: 33px
+  }
+
+  .barra nav {
+    gap: 0
+  }
+
+  .barra nav a {
+    padding: 9px;
+    font-size: .73rem
+  }
+
+  .usuario {
+    font-size: .72rem
+  }
+
+  .usuario span {
+    max-width: 140px
+  }
+
+  .usuario button {
+    padding: 8px 10px
+  }
+
+  .intro {
+    display: block;
+    margin-top: 0
+  }
+
+  .intro>.botao {
+    margin-top: 16px
+  }
+
+  .cartao {
+    padding: 20px
+  }
+
+  .login-layout {
+    grid-template-columns: minmax(0,1fr);
+    gap: 20px
+  }
+
+  .login-layout .hero {
+    min-height: 280px;
+    padding: 28px
+  }
+
+  .hero {
+    padding: 28px;
+    min-height: 280px
+  }
+
+  .hero h1 {
+    font-size: 3.8rem
+  }
+
+  .metricas {
+    gap: 8px
+  }
+
+  .metrica {
+    padding: 16px 11px
+  }
+
+  .metrica strong {
+    font-size: 2.4rem
+  }
+
+  .metrica span {
+    font-size: .66rem
+  }
+
+  .campos {
+    grid-template-columns: minmax(0,1fr);
+    gap: 16px
+  }
+
+  .editor-exercicio .campos {
+    grid-template-columns: repeat(2,minmax(0,1fr))
+  }
+
+  .rodape {
+    padding: 20px 18px;
+    display: block
+  }
+
+  .rodape a {
+    display: inline-block;
+    margin-top: 9px
+  }
+
+  .acoes button {
+    flex-grow: 1
+  }
+
+  th,td {
+    padding: 12px
+  }
+
+  .intro p {
+    font-size: .85rem
+  }
+
+}
+
+/* A preferência por movimento reduzido é respeitada. */
+
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    scroll-behavior: auto!important;
+    transition: none!important
+  }
+
+}

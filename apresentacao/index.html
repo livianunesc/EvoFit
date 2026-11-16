@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta name="author" content="Livia Nunes Coelho">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demonstração simplificada do EvoFit: treino, conclusão, histórico e ranking.">
+  <title>EvoFit | Apresentação</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23d6fa42'/%3E%3Ctext x='8' y='24' font-size='25' font-family='sans-serif' font-weight='bold'%3EE%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/apresentacao/estilo.css">
+  <script src="/apresentacao/app.js" defer></script>
+</head>
+<body>
+  <!-- HTML define o conteúdo; CSS apresenta; JavaScript conversa com a API Flask. -->
+  <header class="topo">
+    <a class="marca" href="/apresentacao/" aria-label="EvoFit, início da apresentação">EVO<span>FIT</span></a>
+    <nav aria-label="Navegação principal"><a href="/">Versão completa</a></nav>
+  </header>
+  <main>
+    <section class="abertura" aria-labelledby="titulo">
+      <p class="etiqueta">VERSÃO SIMPLES PARA APRESENTAÇÃO</p>
+      <h1 id="titulo">Um treino.<br>Uma nova conquista.</h1>
+      <p>Entre, consulte os exercícios e registre um treino. Os dados são os mesmos da versão completa.</p>
+    </section>
+    <!-- Uma única região anuncia carregamento, sucesso e erro para leitores de tela. -->
+    <p id="mensagem" class="mensagem" role="status" aria-live="polite" aria-atomic="true"></p>
+    <section id="acesso" class="cartao acesso" aria-labelledby="titulo-acesso">
+      <h2 id="titulo-acesso">Entrar no EvoFit</h2>
+      <p>Use sua conta ou preencha o exemplo de aluno para apresentar.</p>
+      <form id="form-login">
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" autocomplete="username" maxlength="200" required>
+        <label for="senha">Senha</label>
+        <input id="senha" name="senha" type="password" autocomplete="current-password" minlength="8" maxlength="128" required>
+        <div class="acoes">
+          <button id="entrar" type="submit">Entrar</button>
+          <button id="exemplo" class="secundario" type="button">Preencher conta de exemplo</button>
+        </div>
+      </form>
+      <p class="ajuda">A conta de exemplo existe depois da inicialização do banco de desenvolvimento.</p>
+    </section>
+    <section id="painel" hidden aria-labelledby="titulo-painel">
+      <div class="linha-boas-vindas">
+        <div><p class="etiqueta">VAMOS TREINAR</p><h2 id="titulo-painel">Seu painel</h2><p id="usuario"></p></div>
+        <button id="sair" class="secundario" type="button">Sair</button>
+      </div>
+      <div class="colunas">
+        <section class="cartao" aria-labelledby="titulo-treinos">
+          <h3 id="titulo-treinos">1. Escolha seu treino</h3>
+          <label for="treino">Treino disponível</label>
+          <select id="treino"><option value="">Selecione um treino</option></select>
+          <p id="sem-treinos" class="ajuda" hidden>Nenhum treino cadastrado. O personal pode criar um na versão completa.</p>
+          <form id="form-treino" hidden>
+            <p id="orientacao" class="ajuda"></p>
+            <div id="exercicios"></div>
+            <button id="concluir" type="submit" disabled>Concluir treino</button>
+          </form>
+        </section>
+        <div class="resumos">
+          <section class="cartao" aria-labelledby="titulo-historico">
+            <h3 id="titulo-historico">2. Veja suas conquistas</h3>
+            <p class="ajuda">Histórico dos treinos concluídos.</p>
+            <ul id="historico" class="lista"></ul>
+          </section>
+          <section class="cartao" aria-labelledby="titulo-ranking">
+            <h3 id="titulo-ranking">3. Acompanhe sua equipe</h3>
+            <p class="ajuda">Ranking geral por número de treinos completos.</p>
+            <ol id="ranking" class="lista ranking"></ol>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><p>EvoFit · Projeto integrado de DWS, POO e Banco de Dados.</p><a href="/">Abrir todos os cadastros</a></footer>
+</body>
+</html>

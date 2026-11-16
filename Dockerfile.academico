@@ -1,0 +1,22 @@
+# Ambiente da versão avaliada: Flask executa a API; PHP gera um relatório via CLI.
+FROM python:3.12-slim-bookworm
+WORKDIR /app
+# A CA fornecida pelo ambiente é usada somente durante a instalação.
+# As assinaturas APT, a verificação TLS e os hashes dos pacotes ficam ativos.
+RUN --mount=type=secret,id=proxy_ca \
+    set -eu; \
+    if [ -f /run/secrets/proxy_ca ]; then \
+      printf 'Acquire::https::CaInfo "/run/secrets/proxy_ca";\n' > /etc/apt/apt.conf.d/99-evofit-ca; \
+    fi; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends php-cli php-mysql; \
+    rm -rf /var/lib/apt/lists/* /etc/apt/apt.conf.d/99-evofit-ca
+COPY requirements.txt /app/requirements.txt
+RUN --mount=type=secret,id=proxy_ca \
+    set -eu; \
+    if [ -f /run/secrets/proxy_ca ]; then \
+      pip install --no-cache-dir --cert /run/secrets/proxy_ca -r requirements.txt; \
+    else pip install --no-cache-dir -r requirements.txt; fi
+COPY . /app
+EXPOSE 4173
+CMD ["python", "server.py", "--host", "0.0.0.0", "--port", "4173"]

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+  <meta name="author" content="Livia Nunes Coelho">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#d7fd71">
+    <meta name="description" content="EvoFit: treinos, acompanhamento e evolução em equipe.">
+    <title>Exercícios · EvoFit</title>
+    <link rel="stylesheet" href="/css/estilo.css">
+    <script type="module" src="/js/app.js">
+    </script>
+  </head>
+  <body data-pagina="exercicios">
+    <!-- HTML semântico: cabeçalho, navegação, conteúdo principal e rodapé. -->
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <header class="cabecalho">
+      <div class="barra">
+        <a class="marca" href="/" aria-label="EvoFit, início">EVO<span>FIT</span>.</a>
+        <nav aria-label="Navegação principal">
+          <a href="/">Painel</a>
+          <a href="/pages/alunos.html" data-personal hidden>Alunos</a>
+          <a href="/pages/exercicios.html" aria-current="page" data-personal hidden>Exercícios</a>
+          <a href="/pages/treinos.html">Treinos</a>
+          <a href="/pages/relatorios.html">Histórico e ranking</a>
+        </nav>
+        <div class="usuario">
+          <span id="usuario-nome">Seu foco em movimento</span>
+          <button id="sair" class="secundario pequeno" hidden>Sair</button>
+        </div>
+      </div>
+    </header>
+    <main id="conteudo">
+      <div id="status" class="status" role="status" aria-live="polite">
+      </div>
+      <section class="intro">
+        <div>
+          <span class="sobretitulo">A base de um bom treino</span>
+          <h1>Catálogo de exercícios</h1>
+          <p>Um catálogo compartilhado pelos personals. Cadastre movimentos com instruções claras.</p>
+        </div>
+      </section>
+      <div id="area-restrita" hidden>
+        <section class="cartao">
+          <h2 id="titulo-form">Cadastrar exercício</h2>
+          <form id="form-exercicio">
+            <input type="hidden" name="id">
+            <div class="campos">
+              <div class="campo">
+                <label for="exercicio-nome">Nome</label>
+                <input id="exercicio-nome" name="nome" required maxlength="150" placeholder="Ex.: agachamento">
+              </div>
+              <div class="campo">
+                <label for="exercicio-grupo">Grupo muscular</label>
+                <input id="exercicio-grupo" name="grupo_muscular" required maxlength="80" placeholder="Ex.: pernas">
+              </div>
+            </div>
+            <div class="campo">
+              <label for="exercicio-instrucoes">Instruções</label>
+              <textarea id="exercicio-instrucoes" name="instrucoes" required maxlength="1000" placeholder="Descreva como executar o movimento.">
+              </textarea>
+            </div>
+            <div class="acoes">
+              <button class="lima" type="submit" id="salvar-exercicio">Cadastrar exercício</button>
+              <button class="secundario" type="button" id="cancelar-exercicio" hidden>Cancelar edição</button>
+            </div>
+          </form>
+        </section>
+        <section class="cartao">
+          <h2>Movimentos disponíveis</h2>
+          <div id="lista-exercicios">
+          </div>
+          <p class="ajuda">Exercícios usados em treinos não podem ser excluídos. Confira suas alterações: o catálogo é compartilhado.</p>
+        </section>
+      </div>
+    </main>
+    <footer class="rodape">
+      <span>EvoFit · Cada repetição conta.</span>
+      <a href="/apresentacao/">Abrir versão simples para apresentação →</a>
+    </footer>
+  </body>
+</html>

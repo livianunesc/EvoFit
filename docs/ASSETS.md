@@ -1,8 +1,10 @@
 # Recursos visuais do EvoFit
 
+**Autora do projeto:** Livia Nunes Coelho
+
 ## Imagem principal
 
-`static/images/hero-focus.png` é uma imagem original gerada por IA para o EvoFit em 6 de novembro de 2026. Mostra uma atleta adulta fictícia em ambiente de academia, em estilo fotográfico editorial preto e branco. Não é uma fotografia de uma pessoa real contratada nem uma imagem extraída das referências de interface.
+`static/images/hero-focus.png` é uma imagem original gerada por IA para o EvoFit em 6 de novembro de 2026. Mostra uma atleta adulta fictícia em ambiente de academia, em estilo fotográfico editorial preto e branco. A imagem integra os recursos da implementação PHP anterior.
 
 A composição posiciona a atleta no lado direito e mantém uma área escura à esquerda para títulos sobrepostos. A imagem foi gerada sem texto, logotipos ou marcas. O arquivo PNG original tem **1672 × 941 pixels**, formato RGB e aproximadamente **1,8 MB**, e é servido localmente, sem chamadas a serviços externos durante o uso.
 

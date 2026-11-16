@@ -1,27 +1,16 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-where py >nul 2>nul
-if not errorlevel 1 (
-    set "EVOFIT_PY=py -3"
-) else (
-    where python >nul 2>nul
-    if errorlevel 1 (
-        echo O Python nao foi encontrado. Instale Python 3.10 ou superior em python.org.
-        echo Depois abra este arquivo novamente.
-        pause
-        exit /b 1
-    )
-    set "EVOFIT_PY=python"
+REM Mantenha o MySQL e esta janela abertos. O navegador usa a API Flask.
+if not exist .venv\Scripts\python.exe (
+ echo Execute Preparar EvoFit.bat primeiro.
+ pause
+ exit /b 1
 )
-echo Ligue o MySQL no painel do XAMPP antes de iniciar.
-echo Iniciando o EvoFit. Mantenha esta janela aberta enquanto usa o aplicativo.
-echo No navegador, abra: http://localhost:4173
-start "" /b powershell -NoProfile -Command "Start-Sleep -Seconds 2; Start-Process 'http://localhost:4173'"
-%EVOFIT_PY% server.py
+start "" "http://127.0.0.1:4173"
+.venv\Scripts\python.exe server.py
 if errorlevel 1 (
-    echo.
-    echo O EvoFit nao iniciou. Confira a mensagem acima.
-    echo Ligue o MySQL no XAMPP e prepare o banco usando Preparar EvoFit.bat.
+ echo Verifique o MySQL, a porta 4173 e a configuracao .env.academico.
+ pause
+ exit /b 1
 )
-pause

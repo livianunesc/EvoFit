@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+  <meta name="author" content="Livia Nunes Coelho">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#d7fd71">
+    <meta name="description" content="EvoFit: treinos, acompanhamento e evolução em equipe.">
+    <title>Início · EvoFit</title>
+    <link rel="stylesheet" href="/css/estilo.css">
+    <script type="module" src="/js/app.js">
+    </script>
+  </head>
+  <body data-pagina="painel">
+    <!-- HTML semântico: cabeçalho, navegação, conteúdo principal e rodapé. -->
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <header class="cabecalho">
+      <div class="barra">
+        <a class="marca" href="/" aria-label="EvoFit, início">EVO<span>FIT</span>.</a>
+        <nav aria-label="Navegação principal">
+          <a href="/" aria-current="page">Painel</a>
+          <a href="/pages/alunos.html" data-personal hidden>Alunos</a>
+          <a href="/pages/exercicios.html" data-personal hidden>Exercícios</a>
+          <a href="/pages/treinos.html">Treinos</a>
+          <a href="/pages/relatorios.html">Histórico e ranking</a>
+        </nav>
+        <div class="usuario">
+          <span id="usuario-nome">Seu foco em movimento</span>
+          <button id="sair" class="secundario pequeno" hidden>Sair</button>
+        </div>
+      </div>
+    </header>
+    <main id="conteudo">
+      <div id="status" class="status" role="status" aria-live="polite">
+      </div>
+      <!-- A autenticação usa Fetch; a senha nunca é salva no navegador. -->
+      <section id="entrada" class="login-layout" hidden>
+        <div class="hero">
+          <span class="sobretitulo">Seu treino. Seu time. Sua evolução.</span>
+          <h1>COLOQUE O SEU<br>
+            <em>FOCO EM MOVIMENTO.</em>
+          </h1>
+          <p>Um exercício de cada vez. Organize sua rotina, registre suas conquistas e evolua com o seu personal.</p>
+        </div>
+        <section class="cartao" aria-labelledby="titulo-login">
+          <span class="sobretitulo">Bom ter você aqui</span>
+          <h2 id="titulo-login">Entre para treinar</h2>
+          <p class="ajuda">Acesse sua conta de personal ou aluno.</p>
+          <form id="form-login">
+            <div class="campo">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" required maxlength="200" autocomplete="username">
+            </div>
+            <div class="campo">
+              <label for="senha">Senha</label>
+              <input id="senha" name="senha" type="password" required minlength="8" maxlength="128" autocomplete="current-password">
+            </div>
+            <button class="lima" type="submit">Entrar no EvoFit →</button>
+          </form>
+          <aside class="demo" aria-label="Contas de demonstração">
+            <strong>Experimente com dados fictícios</strong>
+            <p>Personal: <code>personal@evofit.demo</code>
+              <br>Aluno: <code>aluno@evofit.demo</code>
+              <br>Senha das duas contas: <code>EvoFit123!</code>
+            </p>
+            <div class="acoes">
+              <button type="button" class="secundario pequeno" data-demo="personal">Preencher personal</button>
+              <button type="button" class="secundario pequeno" data-demo="aluno">Preencher aluno</button>
+            </div>
+          </aside>
+        </section>
+      </section>
+      <section id="painel" hidden>
+        <div class="hero">
+          <span class="sobretitulo" id="saudacao">Seu foco em movimento</span>
+          <h1>CADA REP<br>
+            <em>CONTA.</em>
+          </h1>
+          <p id="texto-painel">Seu treino e suas conquistas, no mesmo lugar.</p>
+          <a class="botao lima" href="/pages/treinos.html">Ver treinos →</a>
+        </div>
+        <section class="metricas" aria-label="Resumo do acompanhamento">
+          <div class="metrica">
+            <strong id="total-treinos">—</strong>
+            <span>Treinos prescritos</span>
+          </div>
+          <div class="metrica">
+            <strong id="total-concluidos">—</strong>
+            <span>Treinos concluídos</span>
+          </div>
+          <div class="metrica">
+            <strong id="total-pessoas">—</strong>
+            <span id="rotulo-pessoas">Alunos acompanhados</span>
+          </div>
+        </section>
+        <div class="grade">
+          <section class="cartao">
+            <span class="sobretitulo">Um passo de cada vez</span>
+            <h2>Seu próximo movimento</h2>
+            <div id="proximos-treinos">
+            </div>
+          </section>
+          <section class="cartao">
+            <span class="sobretitulo">Evolua com o time</span>
+            <h2>Ranking da equipe</h2>
+            <div id="ranking-resumo">
+            </div>
+            <a href="/pages/relatorios.html">Ver histórico e ranking →</a>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer class="rodape">
+      <span>EvoFit · Cada repetição conta.</span>
+      <a href="/apresentacao/">Abrir versão simples para apresentação →</a>
+    </footer>
+  </body>
+</html>

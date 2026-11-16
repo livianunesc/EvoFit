@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+  <meta name="author" content="Livia Nunes Coelho">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#d7fd71">
+    <meta name="description" content="EvoFit: treinos, acompanhamento e evolução em equipe.">
+    <title>Alunos · EvoFit</title>
+    <link rel="stylesheet" href="/css/estilo.css">
+    <script type="module" src="/js/app.js">
+    </script>
+  </head>
+  <body data-pagina="alunos">
+    <!-- HTML semântico: cabeçalho, navegação, conteúdo principal e rodapé. -->
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    <header class="cabecalho">
+      <div class="barra">
+        <a class="marca" href="/" aria-label="EvoFit, início">EVO<span>FIT</span>.</a>
+        <nav aria-label="Navegação principal">
+          <a href="/">Painel</a>
+          <a href="/pages/alunos.html" aria-current="page" data-personal hidden>Alunos</a>
+          <a href="/pages/exercicios.html" data-personal hidden>Exercícios</a>
+          <a href="/pages/treinos.html">Treinos</a>
+          <a href="/pages/relatorios.html">Histórico e ranking</a>
+        </nav>
+        <div class="usuario">
+          <span id="usuario-nome">Seu foco em movimento</span>
+          <button id="sair" class="secundario pequeno" hidden>Sair</button>
+        </div>
+      </div>
+    </header>
+    <main id="conteudo">
+      <div id="status" class="status" role="status" aria-live="polite">
+      </div>
+      <section class="intro">
+        <div>
+          <span class="sobretitulo">Acompanhamento de perto</span>
+          <h1>Seus alunos</h1>
+          <p>Cadastre quem treina com você. Cada aluno tem uma conta e um objetivo próprio.</p>
+        </div>
+      </section>
+      <div id="area-restrita" hidden>
+        <section class="cartao">
+          <h2 id="titulo-form">Cadastrar aluno</h2>
+          <form id="form-aluno">
+            <input type="hidden" name="id">
+            <div class="campos">
+              <div class="campo">
+                <label for="aluno-nome">Nome completo</label>
+                <input id="aluno-nome" name="nome" required maxlength="150" autocomplete="name">
+              </div>
+              <div class="campo">
+                <label for="aluno-email">E-mail</label>
+                <input id="aluno-email" name="email" type="email" required maxlength="200" autocomplete="off">
+              </div>
+              <div class="campo">
+                <label for="aluno-senha">Senha inicial <span id="senha-opcional">
+                  </span>
+                </label>
+                <input id="aluno-senha" name="senha" type="password" required minlength="8" maxlength="128" autocomplete="new-password">
+              </div>
+              <div class="campo">
+                <label for="aluno-objetivo">Objetivo</label>
+                <input id="aluno-objetivo" name="objetivo" maxlength="500" placeholder="Ex.: ganhar força com consistência">
+              </div>
+            </div>
+            <div class="acoes">
+              <button type="submit" class="lima" id="salvar-aluno">Cadastrar aluno</button>
+              <button type="button" class="secundario" id="cancelar-aluno" hidden>Cancelar edição</button>
+            </div>
+          </form>
+        </section>
+        <section class="cartao">
+          <div class="linha">
+            <h2>Quem está no seu time</h2>
+            <span class="tag" id="contagem-alunos">
+            </span>
+          </div>
+          <div id="lista-alunos">
+          </div>
+          <p class="ajuda">Alunos com treinos ou histórico não podem ser excluídos. Assim o acompanhamento permanece preservado.</p>
+        </section>
+      </div>
+    </main>
+    <footer class="rodape">
+      <span>EvoFit · Cada repetição conta.</span>
+      <a href="/apresentacao/">Abrir versão simples para apresentação →</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+# Só para testes: banco e estado completamente separados dos dados de demonstração.
+services:
+  db:
+    environment:
+      MYSQL_DATABASE: evofit_academico_test
+    volumes: !override
+      - academic_test_mysql:/var/lib/mysql
+  app:
+    environment:
+      DB_NAME: evofit_academico_test
+      EVOFIT_ACADEMICO_TEST_DB: evofit_academico_test
+    volumes: !override
+      - .:/app
+      - academic_test_state:/estado
+    ports: !override
+      - '127.0.0.1:4185:4173'
+volumes:
+  academic_test_mysql:
+  academic_test_state:

@@ -1,26 +1,42 @@
-# EvoFit / Focus — direção visual
+# EvoFit — interface e organização visual
 
-A interface segue as referências visuais enviadas: contraste de preto/branco/verde-lima, organização de um painel esportivo e seleção de treinos inspirada em cards de produto com um item ativo em destaque. Nenhum logotipo ou conteúdo da Starbucks foi incorporado.
+**Autora:** Livia Nunes Coelho
 
-## Paleta
+**Disciplina:** Desenvolvimento de Websites
 
-| Papel | Cor |
-| --- | --- |
-| Verde-lima principal | `#BAF51A` |
-| Verde claro de apoio | `#D4ED93` |
-| Branco quente | `#FEF9F5` |
-| Preto | `#11120E` |
+## Estrutura de navegação
 
-Os valores seguem as cores visuais da referência; algumas legendas hexadecimais na própria imagem não correspondem aos tons exibidos. O contraste e a hierarquia usam os tons efetivamente mostrados.
+A aplicação utiliza HTML semântico e navegação multipágina. A página `index.html` contém o acesso e o painel; as páginas de alunos, exercícios, treinos e relatórios ficam em `pages/`. A interface reduzida em `apresentacao/` permite demonstrar o fluxo de consulta e conclusão no mesmo servidor.
 
-Barlow Condensed 700/800 dá ritmo aos títulos; Manrope sustenta os dados e formulários. Ambas são servidas localmente com licença OFL. A fotografia de abertura é uma composição original gerada para o projeto; a atleta é fictícia. Diagramas de execução anteriores foram preservados.
+Cada tela contém cabeçalho, navegação, área principal, títulos hierarquizados e rodapé. Os formulários usam labels associados aos campos, atributos required e limites compatíveis com a validação do servidor.
 
-## Interação e dados
+## Identidade visual
 
-O carrossel não gira sozinho: usuário escolhe por setas, indicadores, teclado ou swipe. Somente treinos atribuídos entram na seleção. As séries, repetições, descanso, observações, carga e conclusão de exercício continuam disponíveis no detalhe. A conclusão é salva no banco e retoma depois de sair/recarregar.
+A folha `css/estilo.css` centraliza cores, tipografia e componentes. O contraste entre fundo claro, texto escuro e verde-lima destaca títulos, ações e indicadores.
 
-O painel mostra registros reais: contagem de treinos, dias ativos, exercícios, maior carga registrada, frequência e calendário. Não há hidratação, calorias, sono ou metas inventadas. O ranking mensal/geral deriva do vínculo real com o personal e conta treinos completos; não mistura equipes.
+| Variável | Cor | Aplicação |
+| --- | --- | --- |
+| `--lima` | `#d7fd71` | Ações e indicadores de destaque |
+| `--preto` | `#171a12` | Texto e botões principais |
+| `--fundo` | `#f5f6f0` | Fundo das páginas |
+| `--cinza` | `#66705b` | Textos secundários |
+| `--borda` | `#dfe4d5` | Delimitação de componentes |
+| `--branco` | `#ffffff` | Cartões e formulários |
 
-A navegação deixou de exibir dieta, perfil e medidas. Os dados antigos permanecem no banco e nos backups. O personal mantém a gestão de atletas e prescrição de treinos.
+Barlow Condensed é utilizada nos títulos e Manrope nos textos. As fontes são servidas localmente, com as licenças descritas em [ASSETS.md](ASSETS.md).
 
-Animações usam principalmente transform/opacity: entrada de tela, feedback de botão, avanço do treino e celebração breve. `prefers-reduced-motion` suprime esses efeitos. Formulários e operações têm feedback, estados de salvamento e erros; respostas de uma sessão antiga são descartadas após logout/troca de conta.
+## Responsividade e acessibilidade
+
+Grid e Flexbox organizam cartões, formulários e indicadores. Media queries ajustam a navegação, o número de colunas e os espaçamentos para telas menores. As tabelas possuem rolagem no próprio componente, preservando a largura da página.
+
+Os campos têm identificação textual; botões têm foco visível; regiões de status usam `aria-live` para comunicar carregamento, sucesso e erro. O CSS respeita `prefers-reduced-motion`.
+
+## Interação com os dados
+
+O JavaScript usa eventos e Fetch para consultar e alterar dados. Os textos recebidos são inseridos com `textContent`. Durante as operações, o botão de envio fica indisponível e a região de status informa o resultado.
+
+O painel, o histórico e o ranking são calculados a partir dos registros MySQL. As contas e atividades demonstrativas são fictícias, persistidas na mesma estrutura relacional. O aluno deve preencher as cargas e marcar todos os exercícios antes da conclusão; uma ficha alterada pelo personal exige atualização da página.
+
+## Evidências
+
+As capturas `docs/imagens/principal-desktop.png`, `principal-mobile.png`, `apresentacao-desktop.png` e `apresentacao-mobile.png` registram as interfaces verificadas no navegador. Os procedimentos estão em [VALIDACAO_ACADEMICA.md](VALIDACAO_ACADEMICA.md).

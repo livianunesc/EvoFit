@@ -1,19 +1,12 @@
-ATUALIZACAO PARA PHP + MYSQL
+A versão principal agora é Python/Flask + MySQL (banco evofit_academico).
+Autora: Livia Nunes Coelho
+Leia README.md e LEIA PRIMEIRO.txt antes de executar.
 
-Leia LEIA PRIMEIRO.txt. Esta versao precisa de PHP e MySQL ligados.
-HTML, CSS e JavaScript continuam sendo a interface.
-Python inicia o PHP e migra o banco antigo com backup.
+Preserve .env, .env.academico, bancos, volumes, SQLite antigo e backups.
+Não importe banco/schema.sql por cima das tabelas da edição antiga.
+A edição PHP anterior continua em static/, php/, database/ e legacy/.
+Nenhuma migração automática dos seus dados antigos é feita nesta adaptação.
 
-1. Pare a versao antiga usando Ctrl+C no terminal.
-2. Guarde uma copia da pasta antiga inteira.
-3. Extraia o ZIP novo e copie o codigo para a pasta antiga.
-4. Preserve evofit.sqlite3 e um .env ja configurado.
-5. Inicie MySQL no XAMPP.
-6. Execute Preparar EvoFit.bat uma vez para migrar o SQLite.
-7. Apos a preparacao, execute Iniciar EvoFit.bat.
-8. No navegador, pressione Ctrl+F5 para carregar os arquivos novos.
-
-O MySQL precisa estar vazio antes da migracao. Se ja migrou,
-nao repita a migracao: apenas inicie o aplicativo.
-O SQLite original permanece e backups sao guardados em backups/.
-Nao compartilhe bancos, backups ou .env contendo senhas.
+Docker: python tools/docker_academico.py iniciar
+Se mudar dependências: python tools/docker_academico.py iniciar --rebuild
+Não execute docker compose down -v: isso apaga volumes.

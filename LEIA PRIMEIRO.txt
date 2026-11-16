@@ -1,35 +1,34 @@
-EVOFIT - VERSAO PHP + MYSQL, COM HTML, CSS, JAVASCRIPT E PYTHON
+EVOFIT — ENTREGA ACADÊMICA DWS + POO + BD
+Autora: Livia Nunes Coelho
 
-NO COMPUTADOR WINDOWS:
+A entrada principal agora é index.html, servida por Python/Flask e MySQL.
+Não abra o HTML com duplo clique: a API precisa estar em execução.
 
-1. Instale XAMPP com PHP 8.2 ou superior e Python 3.10 ou superior.
-2. Abra o painel do XAMPP e clique em Start ao lado de MySQL.
-3. Abra a pasta do projeto que contem server.py.
-4. Na primeira vez, abra Preparar EvoFit.bat e espere terminar.
-5. Abra Iniciar EvoFit.bat. O navegador abrira o EvoFit na porta 4173.
-6. Mantenha a janela preta e o MySQL abertos enquanto usa o sistema.
+CAMINHO MAIS SIMPLES COM DOCKER DESKTOP
+1. Instale Python 3.10+ e Docker Desktop com Docker Compose 2.24.4+.
+2. Com Docker aberto, execute no terminal da pasta do projeto:
+   python tools/docker_academico.py iniciar
+3. Abra o navegador na porta local 4173.
+4. Versão curta para apresentar: caminho /apresentacao/ no mesmo servidor.
 
-Se seu MySQL usa senha/porta diferente, copie .env.example para .env
-(e preserve um .env que ja exista). Abra .env e ajuste os campos DB_.
-As configuracoes de exemplo sao os padroes locais do XAMPP,
-nao credenciais de uma hospedagem.
+WINDOWS COM XAMPP (SEM DOCKER)
+1. Instale Python 3.10+ e XAMPP; ligue MySQL.
+2. Abra Preparar EvoFit.bat. Ele instala as dependências e cria o banco
+   evofit_academico; ajuste .env.academico se seu MySQL usar outra senha/porta.
+3. Abra Iniciar EvoFit.bat. Mantenha a janela e o MySQL ligados.
+4. O relatório PHP precisa de PHP no PATH ou PHP_BIN=C:\xampp\php\php.exe
+   no arquivo .env.academico.
 
-SE VOCE JA USAVA A VERSAO ANTIGA:
-
-Pare o EvoFit antigo com Ctrl+C e guarde uma copia da pasta inteira.
-Copie o codigo novo sobre a pasta antiga sem excluir evofit.sqlite3.
-Preparar EvoFit.bat detecta o SQLite, faz backup e importa no MySQL.
-O banco MySQL deve estar vazio para receber a migracao.
-A migracao nao substitui um banco MySQL que ja tenha usuarios/planos.
-Se ja migrou, use apenas Iniciar EvoFit.bat nas proximas vezes.
-Se o MySQL nao estiver vazio, mantenha ambos os bancos e configure
-um DB_NAME novo no .env antes de migrar. Nao apague seus registros.
-
-DEMONSTRACAO (banco novo):
+CONTAS FICTÍCIAS DO BANCO NOVO
 Personal: personal@evofit.demo
 Aluno: aluno@evofit.demo
 Senha: EvoFit123!
 
-As contas migradas continuam com seus e-mails e senhas anteriores.
-A pasta e os dados no seu computador nao se atualizam sozinhos pelo GitHub.
-Veja README.md para detalhes, comandos e hospedagem.
+LEIA README.md e docs/REQUISITOS_AVALIACAO.md para os critérios,
+consultas SQL, UML, testes e roteiro de apresentação.
+Os scripts .bat foram preparados, mas só a execução Linux foi validada.
+
+A edição PHP anterior está preservada em static/, php/, database/ e legacy/.
+A nova versão usa OUTRO banco: nenhum dado antigo é migrado ou apagado.
+Para a edição anterior, veja docs/EDICAO_PHP_ORIGINAL.md.
+Nunca apague bancos/volumes ou publique os arquivos .env e suas senhas.
