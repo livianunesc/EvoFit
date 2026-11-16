@@ -17,12 +17,14 @@ O [relatório do projeto](docs/RELATORIO_PROJETO.md) apresenta o problema, os ob
 Requisitos: Python 3.10+ e Docker com Compose 2.24.4+ em execução. Não precisa instalar PHP ou MySQL no computador.
 
 ```sh
-python tools/docker_academico.py iniciar
+python tools/docker_academico.py iniciar --abrir
 ```
 
 A preparação cria `.env.academico` com uma senha aleatória local, constrói a imagem quando necessário, inicia MySQL, cria as tabelas/dados fictícios somente em banco vazio e verifica conexão e HTML. O arquivo local e os volumes preservam a configuração e os dados entre reinicializações.
 
-No computador local, abra a porta **4173** no navegador. O sistema precisa do servidor: não abra o `index.html` por `file://` e não use somente Live Server.
+O inicializador abre automaticamente **`index.html`** no navegador, depois de confirmar que o servidor e o banco estão prontos. O endereço local é `http://127.0.0.1:4173/index.html`. Para executar sem abrir o navegador, omita `--abrir`.
+
+No Windows, `Iniciar EvoFit.bat` também abre essa página automaticamente: utiliza a instalação local preparada ou Docker, quando não há ambiente virtual local. O HTML é servido pelo Flask; a abertura por `file://` ou somente Live Server não executa a API e o banco.
 
 - Principal: `/`.
 - Versão curta para apresentação: `/apresentacao/`.
@@ -47,7 +49,7 @@ Use `iniciar --rebuild` após mudar dependências ou o Dockerfile. O código é 
 
 Requisitos: Python 3.10+, MySQL 8.0.16+ ou MariaDB 10.4+. Para o relatório, PHP 8.2+ com PDO MySQL. As validações desta entrega foram feitas com MySQL 8.4 em Linux; os scripts Windows não foram executados nativamente.
 
-No Windows, inicie MySQL no XAMPP e use `Preparar EvoFit.bat`, depois `Iniciar EvoFit.bat`. Se o MySQL usa senha/porta diferente, configure `.env.academico` antes de repetir a preparação.
+No Windows, inicie MySQL no XAMPP e use `Preparar EvoFit.bat`, depois `Iniciar EvoFit.bat`; o navegador abrirá o `index.html` quando o serviço estiver pronto. Se o MySQL usa senha/porta diferente, configure `.env.academico` antes de repetir a preparação.
 
 Por terminal:
 
@@ -61,8 +63,10 @@ python -m pip install -r requirements.txt
 python tools/preparar_academico.py --local
 # Confira DB_* no .env.academico, sem publicar credenciais.
 python app.py init-db --create-database
-python server.py
+python server.py --abrir
 ```
+
+`--abrir` também pode ser usado com `python app.py serve --abrir`. Sem essa opção, o servidor inicia sem abrir navegador, como na execução em containers e nos testes.
 
 A criação do banco requer permissão MySQL. Se ele já foi criado, use `python app.py init-db` sem `--create-database`. O schema não altera tabelas antigas nem apaga registros; não é um mecanismo de migração estrutural. As contas demo só são inseridas em banco sem usuários. Configure `PHP_BIN` quando PHP não estiver no PATH (ex.: `C:\xampp\php\php.exe`).
 

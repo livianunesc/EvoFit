@@ -1,6 +1,6 @@
 """Inicia o EvoFit acadêmico com Docker, sem depender de PHP/MySQL no computador.
 
-Exemplos: python tools/docker_academico.py iniciar
+Exemplos: python tools/docker_academico.py iniciar --abrir
           python tools/docker_academico.py iniciar --testes
           python tools/docker_academico.py parar
 """
@@ -14,6 +14,7 @@ from urllib.error import URLError
 from urllib.request import urlopen
 
 from preparar_academico import preparar
+from abrir_index import abrir_index_pronto
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,6 +29,7 @@ def main():
     parser.add_argument('acao', choices=['iniciar', 'parar', 'validar'])
     parser.add_argument('--testes', action='store_true', help='Banco isolado; porta 4185')
     parser.add_argument('--rebuild', action='store_true', help='Reconstruir a imagem após alterar dependências')
+    parser.add_argument('--abrir', action='store_true', help='Abrir index.html no navegador após a inicialização')
     args = parser.parse_args()
     preparar()
     projeto = 'evofit-academico-test' if args.testes else 'evofit-academico'
@@ -61,9 +63,12 @@ def main():
             with urlopen(f'http://127.0.0.1:{porta}/api/saude', timeout=5) as resposta:
                 assert resposta.status == 200
                 json.load(resposta)
-            with urlopen(f'http://127.0.0.1:{porta}/', timeout=5) as resposta:
+            with urlopen(f'http://127.0.0.1:{porta}/index.html', timeout=5) as resposta:
                 assert 'EvoFit' in resposta.read().decode('utf-8')
-            print(f'EvoFit acadêmico: banco e HTML verificados na porta {porta}.')
+            print(f'EvoFit acadêmico: banco e index.html verificados na porta {porta}.')
+            if args.abrir:
+                # O navegador pertence ao computador do usuário, não ao container.
+                abrir_index_pronto(f'http://127.0.0.1:{porta}')
             return 0
         except (URLError, TimeoutError):
             if tentativa == 19:

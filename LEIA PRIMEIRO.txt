@@ -7,15 +7,16 @@ Não abra o HTML com duplo clique: a API precisa estar em execução.
 CAMINHO MAIS SIMPLES COM DOCKER DESKTOP
 1. Instale Python 3.10+ e Docker Desktop com Docker Compose 2.24.4+.
 2. Com Docker aberto, execute no terminal da pasta do projeto:
-   python tools/docker_academico.py iniciar
-3. Abra o navegador na porta local 4173.
+   python tools/docker_academico.py iniciar --abrir
+3. O navegador abre automaticamente index.html quando servidor e banco estao prontos.
 4. Versão curta para apresentar: caminho /apresentacao/ no mesmo servidor.
 
 WINDOWS COM XAMPP (SEM DOCKER)
 1. Instale Python 3.10+ e XAMPP; ligue MySQL.
 2. Abra Preparar EvoFit.bat. Ele instala as dependências e cria o banco
    evofit_academico; ajuste .env.academico se seu MySQL usar outra senha/porta.
-3. Abra Iniciar EvoFit.bat. Mantenha a janela e o MySQL ligados.
+3. Abra Iniciar EvoFit.bat. O index.html abre automaticamente depois da inicializacao.
+   Mantenha a janela e o MySQL ligados.
 4. O relatório PHP precisa de PHP no PATH ou PHP_BIN=C:\xampp\php\php.exe
    no arquivo .env.academico.
 

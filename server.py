@@ -1,6 +1,7 @@
 """Entrada principal da entrega: servidor Python/Flask com MySQL.
 
-Use ``python server.py`` para a versão acadêmica. A edição PHP anterior continua
+Use ``python server.py --abrir`` para iniciar e abrir index.html automaticamente.
+Sem --abrir, o servidor executa sem abrir o navegador. A edição PHP anterior continua
 preservada e pode ser iniciada separadamente com ``python server.py --legacy-php``.
 """
 import sys

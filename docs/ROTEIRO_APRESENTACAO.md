@@ -12,7 +12,7 @@ Apresentar a integração entre front-end HTML/CSS/JavaScript, rotas Flask, clas
 
 ## 2. Preparação do ambiente
 
-1. Iniciar com `python tools/docker_academico.py iniciar` ou com os scripts Windows e MySQL local.
+1. Iniciar com `python tools/docker_academico.py iniciar --abrir` ou com os scripts Windows e MySQL local. O inicializador abre `index.html` após verificar a disponibilidade do servidor e do banco.
 2. Confirmar o login das contas fictícias e abrir o banco `evofit_academico` no cliente SQL.
 3. Importar `banco/dados_teste.sql` após a inicialização para disponibilizar os casos sem correspondência e a paginação.
 4. Abrir os diagramas de `MODELAGEM.md`, os scripts SQL e os arquivos `models.py`, `dao.py`, `app.py` e `js/api.js`.

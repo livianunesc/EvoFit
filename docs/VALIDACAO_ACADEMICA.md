@@ -6,6 +6,8 @@
 
 A validação foi executada em Linux, com Python 3.12, Flask 3.1.2, MySQL 8.4, PHP 8.2/PDO MySQL e Chromium. Foram concluídos **27 testes automatizados**, dois fluxos de navegador e as 14 consultas SQL da avaliação de Banco de Dados, além das verificações de instalação, inicialização e integração PHP descritas abaixo.
 
+A inicialização automática também foi verificada em uma suíte adicional de **8 testes**, descrita na seção específica abaixo.
+
 Os resultados deste relatório correspondem à versão acadêmica com API Flask. Os relatórios anteriores documentam a edição PHP original, preservada no repositório.
 
 | Verificação executada | Resultado |
@@ -22,6 +24,8 @@ Os resultados deste relatório correspondem à versão acadêmica com API Flask.
 | PHP integrado `/relatorio-php` | Passou: login personal e relatório HTML com dados reais via PDO |
 | Fontes locais e bloqueio de código/configuração privados | Passou: fonte TTF acessível; app.py, .env.academico, PHP privado e antiga entrada static/api.php retornam 404 |
 | Sintaxe PHP, Python e JavaScript | Passou |
+| `tests/test_inicializacao.py` — abertura automática do index | 8 testes passaram: prontidão HTTP, endereço correto, timeout e ausência de navegador |
+| Inicializadores local e Docker com `--abrir` | Passaram em Linux com Flask/MySQL reais e chamada ao navegador capturada; abertura solicitada somente em `/index.html` |
 | `banco/schema.sql`, `dados_teste.sql`, 14 consultas AV2 | Passaram em MySQL 8.4; fixture repetida não duplicou linhas; paginação mostrou duas páginas distintas |
 
 ## O que os testes demonstram
@@ -49,6 +53,16 @@ EVOFIT_TEST_URL=http://127.0.0.1:4185 EVOFIT_CONFIRMAR_BANCO_TESTE=1 python test
 ```
 
 As atribuições antes do comando são sintaxe Bash; no PowerShell use `$env:EVOFIT_TEST_URL` e `$env:EVOFIT_CONFIRMAR_BANCO_TESTE`. `CHROMIUM_PATH` permite escolher um browser instalado. `EVOFIT_SCREENSHOT_DIR` escolhe a pasta de capturas, que por padrão é temporária. Capturas da validação estão em `docs/imagens/`.
+
+## Inicialização automática da página principal
+
+O inicializador abre `index.html` depois de confirmar o estado da API e a disponibilidade da página. A suíte usa um servidor HTTP local real e substitui somente o controlador do navegador. São verificados: espera pela saúde da API e pelo HTML, URL exata, respostas de erro, título incorreto, conexão recusada e navegador indisponível.
+
+```sh
+python -m unittest discover -s tests -p test_inicializacao.py -v
+```
+
+O fluxo `python server.py --abrir` foi exercitado com Flask e o banco de testes reais, em uma porta temporária. A chamada ao navegador foi capturada e conferida. Uma porta ocupada impediu o início e não abriu outro serviço. O fluxo Docker `iniciar --testes --abrir` também solicitou corretamente `/index.html` após as verificações. Os testes não abriram janelas reais de navegador do sistema operacional.
 
 ## Limites
 

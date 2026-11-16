@@ -373,6 +373,7 @@ def main(argumentos=None):
     servir = comandos.add_parser('serve', help='Iniciar o servidor local de desenvolvimento')
     servir.add_argument('--host', default='127.0.0.1')
     servir.add_argument('--port', type=int, default=4173)
+    servir.add_argument('--abrir', action='store_true', help='Abrir index.html após servidor e banco estarem prontos')
     args = parser.parse_args(argumentos)
     app = create_app()
     if args.comando == 'init-db':
@@ -384,7 +385,27 @@ def main(argumentos=None):
             print('Banco acadêmico pronto; registros existentes foram preservados.')
         except (mysql.connector.Error, OSError):
             parser.exit(1, 'Não foi possível preparar o banco. Confira DB_*, serviço MySQL e schema.\n')
+    elif args.abrir:
+        from threading import Thread
+        from werkzeug.serving import make_server
+        from tools.abrir_index import abrir_index_pronto
+
+        # O bind acontece antes da thread: se a porta estiver ocupada, não abrimos
+        # o navegador para um serviço que já estava rodando naquele endereço.
+        with make_server(args.host, args.port, app, threaded=True) as servidor:
+            host_navegador = {'0.0.0.0': '127.0.0.1', '::': '::1'}.get(args.host, args.host)
+            if ':' in host_navegador and not host_navegador.startswith('['):
+                host_navegador = f'[{host_navegador}]'
+            url_base = f'http://{host_navegador}:{servidor.server_port}'
+            Thread(target=abrir_index_pronto, args=(url_base,),
+                   name='abrir-index-evofit', daemon=True).start()
+            print('EvoFit iniciado. Pressione Ctrl+C para encerrar.', flush=True)
+            try:
+                servidor.serve_forever()
+            except KeyboardInterrupt:
+                print('Servidor EvoFit encerrado.')
     else:
+        # Sem --abrir, mantém o comportamento sem navegador utilizado pelo Docker.
         # debug=False evita debugger remoto e recarga que duplicaria processos.
         app.run(host=args.host, port=args.port, debug=False)
 
